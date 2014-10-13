@@ -25,8 +25,17 @@ public class StringTest {
         assertThat(data.getStringValue(), is("test"));
     }
 
+    @Test
+    public void should_not_write_fields_without_setter() throws Exception {
+        StringData data = create(StringData.class);
+
+        assertThat(data.getNoSetter(), is(nullValue()));
+    }
+
     public static class StringData {
         private String stringValue;
+
+        private String noSetter;
 
         public String getStringValue() {
             return stringValue;
@@ -34,6 +43,10 @@ public class StringTest {
 
         public void setStringValue(String stringValue) {
             this.stringValue = stringValue;
+        }
+
+        public String getNoSetter() {
+            return noSetter;
         }
     }
 }
