@@ -1,22 +1,21 @@
-package com.exmertec.dummy_easy;
+package com.exmertec.dummie;
 
-import com.exmertec.dummy_easy.generator.FieldValueGenerator;
-import com.exmertec.dummy_easy.generator.impl.StringFieldValueGenerator;
+import com.exmertec.dummie.generator.FieldValueGenerator;
+import com.exmertec.dummie.generator.impl.StringFieldValueGenerator;
 import com.google.common.collect.Maps;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.beanutils.BeanUtilsBean2;
 import org.apache.commons.beanutils.PropertyUtilsBean;
 
 import java.lang.reflect.Field;
 import java.util.Map;
 
-public class DummyObjectBuilder<T> {
+public class DummyBuilder<T> {
     private final Class<T> type;
     private final Map<Class<?>, Object> generatedValues;
     private final Map<Class<?>, FieldValueGenerator> generators;
 
-    DummyObjectBuilder(Class<T> type) {
+    DummyBuilder(Class<T> type) {
         this.type = type;
         this.generatedValues = defaultGeneratedValues();
         this.generators = defaultGenerators();
@@ -68,11 +67,11 @@ public class DummyObjectBuilder<T> {
             }
             return instance;
         } catch (Exception e) {
-            throw new DummyCreateException(e);
+            throw new DummieException(e);
         }
     }
 
-    public <E> DummyObjectBuilder<T> override(Class<E> fieldType, E value) {
+    public <E> DummyBuilder<T> override(Class<E> fieldType, E value) {
         generatedValues.put(fieldType, value);
         return this;
     }

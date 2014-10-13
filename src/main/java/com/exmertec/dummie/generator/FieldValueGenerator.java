@@ -1,4 +1,4 @@
-package com.exmertec.dummy_easy.generator;
+package com.exmertec.dummie.generator;
 
 import java.lang.reflect.Field;
 

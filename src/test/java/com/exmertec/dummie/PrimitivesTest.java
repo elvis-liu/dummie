@@ -1,9 +1,9 @@
-package com.exmertec.dummy_easy;
+package com.exmertec.dummie;
 
 import org.junit.Test;
 
-import static com.exmertec.dummy_easy.DummyFactory.create;
-import static com.exmertec.dummy_easy.DummyFactory.prepare;
+import static com.exmertec.dummie.Dummie.create;
+import static com.exmertec.dummie.Dummie.prepare;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;

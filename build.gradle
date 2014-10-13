@@ -2,7 +2,7 @@ apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'java'
 
-group = 'com.exmertec.dummy_easy'
+group = 'com.exmertec.dummie'
 version = '0.0.1'
 
 repositories {

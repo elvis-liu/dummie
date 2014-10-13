@@ -1,6 +1,6 @@
-package com.exmertec.dummy_easy.generator.impl;
+package com.exmertec.dummie.generator.impl;
 
-import com.exmertec.dummy_easy.generator.TypeSafeFieldValueGenerator;
+import com.exmertec.dummie.generator.TypeSafeFieldValueGenerator;
 
 import java.lang.reflect.Field;
 
