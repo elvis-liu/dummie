@@ -1,5 +1,7 @@
 package com.exmertec.dummie.generator;
 
+import com.exmertec.dummie.DummyBuilder;
+
 import java.lang.reflect.Field;
 
 public abstract class TypeSafeFieldValueGenerator<T> implements FieldValueGenerator {
@@ -10,14 +12,14 @@ public abstract class TypeSafeFieldValueGenerator<T> implements FieldValueGenera
     }
 
     @Override
-    public T generate(Field field) {
+    public T generate(DummyBuilder builder, Field field) {
         if (!field.getType().isAssignableFrom(fieldType)) {
             throw new IllegalStateException(
                     String.format("Field type (%s) doesn't match with generator type (%s)", field.getType(), fieldType));
         }
 
-        return doGenerate(field);
+        return doGenerate(builder, field);
     }
 
-    protected abstract T doGenerate(Field field);
+    protected abstract T doGenerate(DummyBuilder builder, Field field);
 }
