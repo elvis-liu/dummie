@@ -38,7 +38,7 @@ public class DummyBuilder<T> {
                 if (value == null) {
                     FieldValueGenerator generator = cache.getCachedGenerator(fieldType);
                     if (generator != null) {
-                        value = generator.generate(this, field);
+                        value = generator.generate(cache, field);
                     }
                 }
 
