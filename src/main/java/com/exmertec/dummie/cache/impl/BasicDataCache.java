@@ -1,14 +1,14 @@
-package com.exmertec.dummie.impl;
+package com.exmertec.dummie.cache.impl;
 
-import com.exmertec.dummie.DummyCache;
+import com.exmertec.dummie.cache.DataCache;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
 
-public class BasicDummyCache implements DummyCache {
+public class BasicDataCache implements DataCache {
     private final Map<Class<?>, Object> cachedData;
 
-    public BasicDummyCache() {
+    public BasicDataCache() {
         cachedData = Maps.newHashMap();
         appendPrimitiveWrappers();
     }
@@ -25,12 +25,12 @@ public class BasicDummyCache implements DummyCache {
     }
 
     @Override
-    public <T> void put(Class<T> dataType, T value) {
+    public <T> void cacheData(Class<T> dataType, T value) {
         cachedData.put(dataType, value);
     }
 
     @Override
-    public <T> T get(Class<T> dataType) {
+    public <T> T getCachedData(Class<T> dataType) {
         return (T) cachedData.get(dataType);
     }
 }

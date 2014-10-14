@@ -1,8 +1,8 @@
 package com.exmertec.dummie;
 
+import com.exmertec.dummie.cache.DummyCache;
+import com.exmertec.dummie.cache.impl.DefaultCache;
 import com.exmertec.dummie.generator.FieldValueGenerator;
-import com.exmertec.dummie.impl.BasicDummyCache;
-import com.exmertec.dummie.impl.BasicGeneratorFactory;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtilsBean;
@@ -12,12 +12,14 @@ import java.lang.reflect.Field;
 public class DummyBuilder<T> {
     private final Class<T> type;
     private final DummyCache cache;
-    private final GeneratorFactory generatorFactory;
 
-    DummyBuilder(Class<T> type) {
+    public DummyBuilder(Class<T> type) {
+        this(type, new DefaultCache());
+    }
+
+    public DummyBuilder(Class<T> type, DummyCache cache) {
         this.type = type;
-        this.generatorFactory = new BasicGeneratorFactory();
-        this.cache = new BasicDummyCache();
+        this.cache = cache;
     }
 
     public T build() {
@@ -32,9 +34,9 @@ public class DummyBuilder<T> {
                 }
 
                 Class<?> fieldType = field.getType();
-                Object value = cache.get(fieldType);
+                Object value = cache.getCachedData(fieldType);
                 if (value == null) {
-                    FieldValueGenerator generator = generatorFactory.getGenerator(fieldType);
+                    FieldValueGenerator generator = cache.getCachedGenerator(fieldType);
                     if (generator != null) {
                         value = generator.generate(this, field);
                     }
@@ -49,7 +51,7 @@ public class DummyBuilder<T> {
     }
 
     public <E> DummyBuilder<T> override(Class<E> fieldType, E value) {
-        cache.put(fieldType, value);
+        cache.cacheData(fieldType, value);
         return this;
     }
 }
