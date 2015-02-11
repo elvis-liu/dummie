@@ -2,7 +2,6 @@ package com.exmertec.dummie;
 
 import com.exmertec.dummie.cache.DummyCache;
 import com.exmertec.dummie.cache.impl.DefaultCache;
-import com.exmertec.dummie.generator.FieldValueGenerator;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtilsBean;
@@ -33,14 +32,7 @@ public class DummyBuilder<T> {
                     continue;
                 }
 
-                Class<?> fieldType = field.getType();
-                Object value = cache.getCachedData(fieldType);
-                if (value == null) {
-                    FieldValueGenerator generator = cache.getCachedGenerator(fieldType);
-                    if (generator != null) {
-                        value = generator.generate(cache, field);
-                    }
-                }
+                Object value = cache.getCachedData(field);
                 BeanUtils.setProperty(instance, field.getName(), value);
             }
             return instance;

@@ -10,7 +10,7 @@ import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
 
-public class DefaultCache implements DummyCache {
+public class DefaultCache extends DummyCache {
     private final Map<Class<?>, FieldValueGenerator> cachedGenerator;
     private final Map<Class<?>, FieldValueGenerator> cachedGeneratorWithSuperGenerator;
     private final Map<Class<?>, Object> cachedData;
