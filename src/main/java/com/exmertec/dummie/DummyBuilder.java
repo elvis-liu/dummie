@@ -41,8 +41,8 @@ public class DummyBuilder<T> {
         }
     }
 
-    public <E> DummyBuilder<T> override(Class<E> fieldType, E value) {
-        cache.cacheData(fieldType, value);
+    public <E> DummyBuilder<T> override(Class<E> fieldType, String key, E value) {
+        cache.cacheData(fieldType, key, value);
         return this;
     }
 }

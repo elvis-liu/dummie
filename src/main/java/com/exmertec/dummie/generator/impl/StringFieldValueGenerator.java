@@ -11,7 +11,12 @@ public class StringFieldValueGenerator extends TypeSafeFieldValueGenerator<Strin
     }
 
     @Override
+    protected String doGenerate(DummyCache cache, Class<?> fieldType, String fieldName) {
+        return fieldName;
+    }
+
+    @Override
     protected String doGenerate(DummyCache cache, Field field) {
-        return field.getName();
+        return doGenerate(cache, field.getType(),field.getName());
     }
 }

@@ -2,9 +2,7 @@ package com.exmertec.dummie.cache.impl;
 
 import com.exmertec.dummie.cache.DummyCache;
 import com.exmertec.dummie.generator.FieldValueGenerator;
-import com.exmertec.dummie.generator.impl.EnumFieldValueGenerator;
-import com.exmertec.dummie.generator.impl.ListFieldValueGenerator;
-import com.exmertec.dummie.generator.impl.StringFieldValueGenerator;
+import com.exmertec.dummie.generator.impl.*;
 import com.google.common.collect.Maps;
 
 import java.util.List;
@@ -13,7 +11,6 @@ import java.util.Map;
 public class DefaultCache extends DummyCache {
     private final Map<Class<?>, FieldValueGenerator> cachedGenerator;
     private final Map<Class<?>, FieldValueGenerator> cachedGeneratorWithSuperGenerator;
-    private final Map<Class<?>, Object> cachedData;
 
     public DefaultCache() {
         cachedGenerator = Maps.newHashMap();
@@ -21,9 +18,6 @@ public class DefaultCache extends DummyCache {
 
         cachedGeneratorWithSuperGenerator = Maps.newHashMap();
         addDefaultSuperClassGenerators();
-
-        cachedData = Maps.newHashMap();
-        appendPrimitiveWrappers();
     }
 
     private void addDefaultSuperClassGenerators() {
@@ -33,27 +27,23 @@ public class DefaultCache extends DummyCache {
     private void addDefaultGenerators() {
         cachedGenerator.put(String.class, new StringFieldValueGenerator());
         cachedGenerator.put(List.class, new ListFieldValueGenerator());
-    }
+        cachedGenerator.put(Boolean.class, new BooleanFieldValueGenerator());
+        cachedGenerator.put(Byte.class,  new ByteFieldValueGenerator());
+        cachedGenerator.put(Character.class, new CharacterFieldValueGenerator());
+        cachedGenerator.put(Double.class, new DoubleFieldValueGenerator());
+        cachedGenerator.put(Float.class, new FloatFieldValueGenerator());
+        cachedGenerator.put(Integer.class, new IntegerFieldValueGenerator());
+        cachedGenerator.put(Long.class,new LongFieldValueGenerator());
+        cachedGenerator.put(Short.class, new ShortFieldValueGenerator());
 
-    private void appendPrimitiveWrappers() {
-        cachedData.put(Boolean.class, false);
-        cachedData.put(Byte.class, (byte) 0);
-        cachedData.put(Character.class, '\u0000');
-        cachedData.put(Double.class, (double) 0);
-        cachedData.put(Float.class, (float) 0);
-        cachedData.put(Integer.class, 0);
-        cachedData.put(Long.class, 0l);
-        cachedData.put(Short.class, (short) 0);
-    }
-
-    @Override
-    public <T> void cacheData(Class<T> dataType, T value) {
-        cachedData.put(dataType, value);
-    }
-
-    @Override
-    public <T> T getCachedData(Class<T> dataType) {
-        return (T) cachedData.get(dataType);
+        cachedGenerator.put(boolean.class, new BooleanFieldValueGenerator());
+        cachedGenerator.put(byte.class,  new ByteFieldValueGenerator());
+        cachedGenerator.put(char.class, new CharacterFieldValueGenerator());
+        cachedGenerator.put(double.class, new DoubleFieldValueGenerator());
+        cachedGenerator.put(float.class, new FloatFieldValueGenerator());
+        cachedGenerator.put(int.class, new IntegerFieldValueGenerator());
+        cachedGenerator.put(long.class,new LongFieldValueGenerator());
+        cachedGenerator.put(short.class, new ShortFieldValueGenerator());
     }
 
     @Override

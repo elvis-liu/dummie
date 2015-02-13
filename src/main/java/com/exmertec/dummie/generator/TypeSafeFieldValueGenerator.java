@@ -21,5 +21,17 @@ public abstract class TypeSafeFieldValueGenerator<T> implements FieldValueGenera
         return doGenerate(cache, field);
     }
 
+    @Override
+    public T generate(DummyCache cache, Class<?> fieldType, String fieldName) {
+        if (!fieldType.isAssignableFrom(this.fieldType)) {
+            throw new IllegalStateException(
+                    String.format("Field type (%s) doesn't match with generator type (%s)", fieldType, this.fieldType));
+        }
+
+        return doGenerate(cache, fieldType, fieldName);
+    }
+
+    protected abstract T doGenerate(DummyCache cache, Class<?> fieldType, String fieldName);
+
     protected abstract T doGenerate(DummyCache cache, Field field);
 }

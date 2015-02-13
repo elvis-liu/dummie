@@ -1,22 +1,54 @@
 package com.exmertec.dummie.cache;
 
+import com.exmertec.dummie.cache.impl.BasicDataCache;
 import com.exmertec.dummie.generator.FieldValueGenerator;
 
 import java.lang.reflect.Field;
 
-public abstract class DummyCache implements DataCache, GeneratorCache {
+public abstract class DummyCache implements GeneratorCache {
+
+    private DataCache dataCache;
+
+    public DummyCache() {
+        this.dataCache = new BasicDataCache();
+    }
+
+    public DummyCache(DataCache dataCache) {
+        this.dataCache = dataCache;
+    }
 
     public Object getCachedData(Field field) {
         Class<?> fieldType = field.getType();
-        Object value =  getCachedData(fieldType);
+        Object value = dataCache.getCachedData(fieldType, field.getName());
         if (value == null) {
             FieldValueGenerator generator = getCachedGenerator(fieldType);
             if (generator != null) {
                 value = generator.generate(this, field);
             }
+            dataCache.cacheData(fieldType, field.getName(), value);
         }
         return value;
     }
 
+    public Object getCachedData(Class<?> dataType, String key) {
+        Object value = dataCache.getCachedData(dataType, key);
+        if (value == null) {
+            FieldValueGenerator generator = getCachedGenerator(dataType);
+            if (generator != null) {
+                value = generator.generate(this, dataType, key);
+            }
+            try {
+
+                dataCache.cacheData(dataType, key, Class.forName(dataType.getName()).cast(value));
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return value;
+    }
+
+    public <T> void cacheData(Class<T> dataType, String key, Object value) {
+        dataCache.cacheData(dataType, key, value);
+    }
 
 }

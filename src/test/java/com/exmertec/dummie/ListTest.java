@@ -17,10 +17,21 @@ public class ListTest {
 
         assertThat(data, not(nullValue()));
         assertThat(data.getNotParameterized().size(), is(0));
+        assertThat(data.getParameterized().size(), is(1));
     }
 
     public static class ListData {
         private List notParameterized;
+
+        private List<String> parameterized;
+
+        public List<String> getParameterized() {
+            return parameterized;
+        }
+
+        public void setParameterized(List<String> parameterized) {
+            this.parameterized = parameterized;
+        }
 
         public List getNotParameterized() {
             return notParameterized;
