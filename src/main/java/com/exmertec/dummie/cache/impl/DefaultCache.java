@@ -53,7 +53,7 @@ public class DefaultCache extends DummyCache {
             generator = cachedGeneratorWithSuperGenerator.get(dataType.getSuperclass());
         }
 
-        return generator;
+        return generator == null ? new CustomTypeFieldValueGenerator(dataType) : generator;
     }
 
     @Override
