@@ -18,6 +18,14 @@ public class EnumTest {
         assertEquals(DataType.STRING, enumData.getDataType());
     }
 
+    @Test
+    public void should_create_object_without_any_constant() {
+        EmptyEnumData emptyEnumData = create(EmptyEnumData.class);
+
+        assertThat(emptyEnumData, not(nullValue()));
+        assertEquals(null, emptyEnumData.getDataType());
+    }
+
     public static enum DataType {
         STRING, INTEGER
     }
@@ -29,6 +37,21 @@ public class EnumTest {
         }
 
         public void setDataType(DataType dataType) {
+            this.dataType = dataType;
+        }
+    }
+
+    public static enum EmptyDataType {
+    }
+
+    public static class EmptyEnumData {
+        private EmptyDataType dataType;
+
+        public EmptyDataType getDataType() {
+            return dataType;
+        }
+
+        public void setDataType(EmptyDataType dataType) {
             this.dataType = dataType;
         }
     }
