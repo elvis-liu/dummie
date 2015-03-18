@@ -7,6 +7,7 @@ import com.google.common.collect.Maps;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class DefaultCache extends DummyCache {
     private final Map<Class<?>, FieldValueGenerator> cachedGenerator;
@@ -27,6 +28,8 @@ public class DefaultCache extends DummyCache {
     private void addDefaultGenerators() {
         cachedGenerator.put(String.class, new StringFieldValueGenerator());
         cachedGenerator.put(List.class, new ListFieldValueGenerator());
+        cachedGenerator.put(Map.class, new MapFieldValueGenerator());
+        cachedGenerator.put(Set.class, new SetFieldValueGenerator());
         cachedGenerator.put(Boolean.class, new BooleanFieldValueGenerator());
         cachedGenerator.put(Byte.class,  new ByteFieldValueGenerator());
         cachedGenerator.put(Character.class, new CharacterFieldValueGenerator());
