@@ -2,6 +2,7 @@ package com.exmertec.dummie.cache.impl;
 
 import com.exmertec.dummie.cache.DummyCache;
 import com.exmertec.dummie.generator.FieldValueGenerator;
+import com.exmertec.dummie.generator.impl.EnumFieldValueGenerator;
 import com.exmertec.dummie.generator.impl.ListFieldValueGenerator;
 import com.exmertec.dummie.generator.impl.StringFieldValueGenerator;
 import com.google.common.collect.Maps;
@@ -11,14 +12,22 @@ import java.util.Map;
 
 public class DefaultCache implements DummyCache {
     private final Map<Class<?>, FieldValueGenerator> cachedGenerator;
+    private final Map<Class<?>, FieldValueGenerator> cachedGeneratorWithSuperGenerator;
     private final Map<Class<?>, Object> cachedData;
 
     public DefaultCache() {
         cachedGenerator = Maps.newHashMap();
         addDefaultGenerators();
 
+        cachedGeneratorWithSuperGenerator = Maps.newHashMap();
+        addDefaultSuperClassGenerators();
+
         cachedData = Maps.newHashMap();
         appendPrimitiveWrappers();
+    }
+
+    private void addDefaultSuperClassGenerators() {
+        cachedGeneratorWithSuperGenerator.put(Enum.class, new EnumFieldValueGenerator());
     }
 
     private void addDefaultGenerators() {
@@ -49,7 +58,12 @@ public class DefaultCache implements DummyCache {
 
     @Override
     public FieldValueGenerator getCachedGenerator(Class<?> dataType) {
-        return cachedGenerator.get(dataType);
+        FieldValueGenerator generator = cachedGenerator.get(dataType);
+        if (generator == null) {
+            generator = cachedGeneratorWithSuperGenerator.get(dataType.getSuperclass());
+        }
+
+        return generator;
     }
 
     @Override

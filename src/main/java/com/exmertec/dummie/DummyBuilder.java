@@ -41,7 +41,6 @@ public class DummyBuilder<T> {
                         value = generator.generate(cache, field);
                     }
                 }
-
                 BeanUtils.setProperty(instance, field.getName(), value);
             }
             return instance;
