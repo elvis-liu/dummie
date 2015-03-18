@@ -6,12 +6,17 @@ import com.exmertec.dummie.generator.FieldValueGenerator;
 import java.lang.reflect.Field;
 
 public class EnumFieldValueGenerator implements FieldValueGenerator {
+
     @Override
     public Object generate(DummyCache cache, Field field) {
-        Class genericType = field.getType();
-        Object[] genericValues = genericType.getEnumConstants();
-        if (genericValues.length > 0) {
-            return genericValues[0];
+        return generate(cache, field.getType(), field.getName());
+    }
+
+    @Override
+    public Object generate(DummyCache cache, Class<?> fieldType, String fieldName) {
+        Object[] enumConstants = fieldType.getEnumConstants();
+        if (enumConstants.length > 0) {
+            return enumConstants[0];
         }
         return null;
     }
