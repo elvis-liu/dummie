@@ -5,33 +5,19 @@ import com.exmertec.dummie.generator.FieldValueGenerator;
 
 import java.lang.reflect.Field;
 
-public class FloatFieldValueGenerator implements FieldValueGenerator {
+public class FloatFieldValueGenerator extends FieldValueGenerator {
 
-    @Override
-    public Object generate(DummyCache cache, Field field) {
-        if (!(field.getType().isAssignableFrom(Float.class) || field.getType().isAssignableFrom(float.class))) {
-            throw new IllegalStateException(
-                    String.format("Field type (%s) doesn't match with generator type (%s or %s)", field.getType(), Float.class, float.class));
-        }
-
-        return doGenerate(cache, field);
+    public FloatFieldValueGenerator() {
+        super(Float.class, float.class);
     }
 
     @Override
-    public Object generate(DummyCache cache, Class<?> fieldType, String fieldName) {
-        if (!(fieldType.isAssignableFrom(Float.class) || fieldType.isAssignableFrom(float.class))) {
-            throw new IllegalStateException(
-                    String.format("Field type (%s) doesn't match with generator type (%s or %s)", fieldType, Float.class, float.class));
-        }
-
-        return doGenerate(cache, fieldType, fieldName);
+    public Float generate(DummyCache cache, Field field) {
+        return generate(cache, field.getType(), field.getName());
     }
 
-    protected Float doGenerate(DummyCache cache, Class<?> fieldType, String fieldName) {
+    @Override
+    public Float generate(DummyCache cache, Class<?> fieldType, String fieldName) {
         return 0f;
-    }
-
-    protected Float doGenerate(DummyCache cache, Field field) {
-        return doGenerate(cache, field.getType(), field.getName());
     }
 }

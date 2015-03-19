@@ -5,8 +5,11 @@ import com.exmertec.dummie.generator.FieldValueGenerator;
 
 import java.lang.reflect.Field;
 
-public class EnumFieldValueGenerator implements FieldValueGenerator {
+public class EnumFieldValueGenerator extends FieldValueGenerator {
 
+    public EnumFieldValueGenerator() {
+        super(Enum.class);
+    }
     @Override
     public Object generate(DummyCache cache, Field field) {
         return generate(cache, field.getType(), field.getName());
@@ -19,5 +22,10 @@ public class EnumFieldValueGenerator implements FieldValueGenerator {
             return enumConstants[0];
         }
         return null;
+    }
+
+    @Override
+    public boolean isMatchType(Class<?> targetFieldType) {
+        return super.isMatchType(targetFieldType.getSuperclass());
     }
 }

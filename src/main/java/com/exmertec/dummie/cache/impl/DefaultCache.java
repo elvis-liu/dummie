@@ -3,64 +3,47 @@ package com.exmertec.dummie.cache.impl;
 import com.exmertec.dummie.cache.DummyCache;
 import com.exmertec.dummie.generator.FieldValueGenerator;
 import com.exmertec.dummie.generator.impl.*;
-import com.google.common.collect.Maps;
+import com.google.common.collect.Lists;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class DefaultCache extends DummyCache {
-    private final Map<Class<?>, FieldValueGenerator> cachedGenerator;
-    private final Map<Class<?>, FieldValueGenerator> cachedGeneratorWithSuperGenerator;
+    private final List<FieldValueGenerator> cachedGenerator;
 
     public DefaultCache() {
-        cachedGenerator = Maps.newHashMap();
+        cachedGenerator = Lists.newArrayList();
         addDefaultGenerators();
-
-        cachedGeneratorWithSuperGenerator = Maps.newHashMap();
-        addDefaultSuperClassGenerators();
-    }
-
-    private void addDefaultSuperClassGenerators() {
-        cachedGeneratorWithSuperGenerator.put(Enum.class, new EnumFieldValueGenerator());
     }
 
     private void addDefaultGenerators() {
-        cachedGenerator.put(String.class, new StringFieldValueGenerator());
-        cachedGenerator.put(List.class, new ListFieldValueGenerator());
-        cachedGenerator.put(Map.class, new MapFieldValueGenerator());
-        cachedGenerator.put(Set.class, new SetFieldValueGenerator());
-        cachedGenerator.put(Boolean.class, new BooleanFieldValueGenerator());
-        cachedGenerator.put(Byte.class,  new ByteFieldValueGenerator());
-        cachedGenerator.put(Character.class, new CharacterFieldValueGenerator());
-        cachedGenerator.put(Double.class, new DoubleFieldValueGenerator());
-        cachedGenerator.put(Float.class, new FloatFieldValueGenerator());
-        cachedGenerator.put(Integer.class, new IntegerFieldValueGenerator());
-        cachedGenerator.put(Long.class,new LongFieldValueGenerator());
-        cachedGenerator.put(Short.class, new ShortFieldValueGenerator());
-
-        cachedGenerator.put(boolean.class, new BooleanFieldValueGenerator());
-        cachedGenerator.put(byte.class,  new ByteFieldValueGenerator());
-        cachedGenerator.put(char.class, new CharacterFieldValueGenerator());
-        cachedGenerator.put(double.class, new DoubleFieldValueGenerator());
-        cachedGenerator.put(float.class, new FloatFieldValueGenerator());
-        cachedGenerator.put(int.class, new IntegerFieldValueGenerator());
-        cachedGenerator.put(long.class,new LongFieldValueGenerator());
-        cachedGenerator.put(short.class, new ShortFieldValueGenerator());
+        cachedGenerator.add(new StringFieldValueGenerator());
+        cachedGenerator.add(new ListFieldValueGenerator());
+        cachedGenerator.add(new MapFieldValueGenerator());
+        cachedGenerator.add(new SetFieldValueGenerator());
+        cachedGenerator.add(new BooleanFieldValueGenerator());
+        cachedGenerator.add(new ByteFieldValueGenerator());
+        cachedGenerator.add(new CharacterFieldValueGenerator());
+        cachedGenerator.add(new DoubleFieldValueGenerator());
+        cachedGenerator.add(new FloatFieldValueGenerator());
+        cachedGenerator.add(new IntegerFieldValueGenerator());
+        cachedGenerator.add(new LongFieldValueGenerator());
+        cachedGenerator.add(new ShortFieldValueGenerator());
+        cachedGenerator.add(new EnumFieldValueGenerator());
     }
 
     @Override
     public FieldValueGenerator getCachedGenerator(Class<?> dataType) {
-        FieldValueGenerator generator = cachedGenerator.get(dataType);
-        if (generator == null) {
-            generator = cachedGeneratorWithSuperGenerator.get(dataType.getSuperclass());
+        for (FieldValueGenerator generator: cachedGenerator) {
+            if (generator.isMatchType(dataType)) {
+                return generator;
+            }
         }
 
-        return generator == null ? new CustomTypeFieldValueGenerator(dataType) : generator;
+        return new CustomTypeFieldValueGenerator(dataType);
     }
 
     @Override
-    public void cacheGenerator(Class<?> dataType, FieldValueGenerator generator) {
-        cachedGenerator.put(dataType, generator);
+    public void cacheGenerator(FieldValueGenerator generator) {
+        cachedGenerator.add(generator);
     }
 }
