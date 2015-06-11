@@ -1,12 +1,77 @@
 apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'java'
+apply plugin: 'signing'
 
 group = 'com.exmertec.dummie'
+archivesBaseName = "dummie"
 version = '0.0.1'
 
 repositories {
     mavenCentral()
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'dummie'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'When writing functional testing in Java enterprise application, it\'s always a pain to initialize entity objects, this library generates entity objects automatically, and you can change just the fields you want to control for testing.'
+                url 'https://github.com/elvis-liu/dummie'
+
+                scm {
+                    connection 'scm:git:https://github.com/elvis-liu/dummie.git'
+                    developerConnection 'scm:git:https://github.com/elvis-liu/dummie.git'
+                    url 'https://github.com/elvis-liu/dummie.git'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'elvis-liu'
+                        name 'Elvis Liu'
+                        email 'elvisliu.cs@gmail.com'
+                    }
+                }
+            }
+        }
+    }
 }
 
 idea {
