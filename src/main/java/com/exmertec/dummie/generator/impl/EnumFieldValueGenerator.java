@@ -1,9 +1,9 @@
 package com.exmertec.dummie.generator.impl;
 
+import java.lang.reflect.Field;
+
 import com.exmertec.dummie.cache.DummyCache;
 import com.exmertec.dummie.generator.FieldValueGenerator;
-
-import java.lang.reflect.Field;
 
 public class EnumFieldValueGenerator extends FieldValueGenerator {
 
@@ -26,6 +26,6 @@ public class EnumFieldValueGenerator extends FieldValueGenerator {
 
     @Override
     public boolean isMatchType(Class<?> targetFieldType) {
-        return super.isMatchType(targetFieldType.getSuperclass());
+        return targetFieldType.isEnum();
     }
 }
