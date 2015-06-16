@@ -1,12 +1,12 @@
 package com.exmertec.dummie;
 
-import com.exmertec.dummie.cache.DummyCache;
-import com.exmertec.dummie.cache.impl.DefaultCache;
+import java.lang.reflect.Field;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtilsBean;
 
-import java.lang.reflect.Field;
+import com.exmertec.dummie.cache.DummyCache;
+import com.exmertec.dummie.cache.impl.DefaultCache;
 
 public class DummyBuilder<T> {
     private final Class<T> type;
