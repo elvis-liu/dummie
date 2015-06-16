@@ -38,7 +38,6 @@ public abstract class DummyCache implements GeneratorCache {
                 value = generator.generate(this, dataType, key);
             }
             try {
-
                 dataCache.cacheData(dataType, key, Class.forName(dataType.getName()).cast(value));
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
