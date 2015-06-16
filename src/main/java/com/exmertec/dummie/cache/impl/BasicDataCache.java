@@ -1,14 +1,13 @@
 package com.exmertec.dummie.cache.impl;
 
-import com.exmertec.dummie.cache.Constant;
-import com.exmertec.dummie.cache.DataCache;
-import com.google.common.collect.Maps;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import com.exmertec.dummie.cache.DataCache;
+import com.google.common.collect.Maps;
+
 public class BasicDataCache implements DataCache {
-    private final Map<Class<?>, Map<String, Object>> cachedData;
+    private final Map<Class<?>, Object> cachedData;
 
     private final Map<Class<?>, Class<?>> primToWrap = new HashMap<Class<?>, Class<?>>(16);
 
@@ -29,6 +28,13 @@ public class BasicDataCache implements DataCache {
         primToWrap.put(void.class, Void.class);
     }
 
+    protected Class<?> normalize(Class<?> dataType) {
+        if (dataType.isPrimitive()) {
+            return primToWrap.get(dataType);
+        }
+        return dataType;
+    }
+
     @Override
     public <T> void cacheData(Class<T> dataType, final String key, final Object value) {
         if (dataType.isPrimitive()) {
@@ -38,19 +44,12 @@ public class BasicDataCache implements DataCache {
             throw new ClassCastException(value + " cannot be cast to " + dataType);
         }
         if (!cachedData.containsKey(dataType)) {
-            cachedData.put(dataType, new HashMap<String, Object>() {{ put(key, value); }});
-        } else {
-            cachedData.get(dataType).put(key, value);
+            cachedData.put(dataType, value);
         }
-
     }
 
     @Override
     public <T> T getCachedData(Class<T> dataType, String key) {
-        Map datas = cachedData.get(dataType);
-        if (datas != null) {
-            return (T) datas.get(key);
-        }
-        return null;
+        return (T) cachedData.get(dataType);
     }
 }
