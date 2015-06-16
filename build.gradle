@@ -29,6 +29,11 @@ signing {
     sign configurations.archives
 }
 
+ext {
+    ossrhUsername = ''
+    ossrhPassword = ''
+}
+
 uploadArchives {
     repositories {
         mavenDeployer {
