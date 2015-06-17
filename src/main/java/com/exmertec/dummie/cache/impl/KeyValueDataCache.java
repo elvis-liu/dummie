@@ -1,7 +1,5 @@
 package com.exmertec.dummie.cache.impl;
 
-import com.google.common.collect.Maps;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +7,7 @@ public class KeyValueDataCache extends BasicDataCache {
     private final Map<Class<?>, Map<String, Object>> keyValueCachedData;
 
     public KeyValueDataCache() {
-        keyValueCachedData = Maps.newHashMap();
+        keyValueCachedData = new HashMap<Class<?>, Map<String, Object>>();
     }
 
     @Override
