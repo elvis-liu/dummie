@@ -1,8 +1,8 @@
 package com.exmertec.dummie.generator;
 
-import com.exmertec.dummie.cache.DummyCache;
-
 import java.lang.reflect.Field;
+
+import com.exmertec.dummie.cache.DummyCache;
 
 public abstract class FieldValueGenerator {
     private final Class<?>[] fieldTypes;

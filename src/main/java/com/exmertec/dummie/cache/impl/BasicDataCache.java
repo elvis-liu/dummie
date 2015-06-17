@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.exmertec.dummie.cache.DataCache;
-import com.google.common.collect.Maps;
 
 public class BasicDataCache implements DataCache {
     private final Map<Class<?>, Object> cachedData;
@@ -13,7 +12,7 @@ public class BasicDataCache implements DataCache {
 
     public BasicDataCache() {
         appendPrimitiveWrappers();
-        cachedData = Maps.newHashMap();
+        cachedData = new HashMap<Class<?>, Object>();
     }
 
     private void appendPrimitiveWrappers() {
