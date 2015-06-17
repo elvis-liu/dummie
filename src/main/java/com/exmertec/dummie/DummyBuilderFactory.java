@@ -3,6 +3,7 @@ package com.exmertec.dummie;
 
 import com.exmertec.dummie.cache.DummyCache;
 import com.exmertec.dummie.cache.impl.DefaultCache;
+import com.exmertec.dummie.cache.impl.LevelCache;
 
 public class DummyBuilderFactory {
     private DummyLogic dummyLogic;
@@ -20,6 +21,7 @@ public class DummyBuilderFactory {
                 cache = new DefaultCache();
                 break;
             case LEVEL:
+                cache = new LevelCache(floor);
                 break;
         }
         return new DummyBuilder(type, cache);
