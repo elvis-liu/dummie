@@ -9,11 +9,16 @@ import org.apache.commons.beanutils.PropertyUtilsBean;
 
 import java.lang.reflect.Field;
 
-public class CustomTypeFieldValueGenerator<T> implements FieldValueGenerator {
+public class CustomTypeFieldValueGenerator<T> extends FieldValueGenerator {
     private final Class<T> type;
 
     public CustomTypeFieldValueGenerator(Class<T> type) {
         this.type = type;
+    }
+
+    @Override
+    public boolean isMatchType(Class<?> targetFieldType) {
+        return true;
     }
 
     @Override
