@@ -1,10 +1,11 @@
 package com.exmertec.dummie;
 
-import com.exmertec.dummie.cache.DummyCache;
-import com.exmertec.dummie.cache.impl.DefaultCache;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtilsBean;
+
+import com.exmertec.dummie.cache.DummyCache;
+import com.exmertec.dummie.cache.impl.DefaultCache;
 
 import java.lang.reflect.Field;
 

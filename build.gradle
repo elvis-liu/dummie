@@ -68,6 +68,11 @@ uploadArchives {
                         name 'Elvis Liu'
                         email 'elvisliu.cs@gmail.com'
                     }
+                    developer {
+                        id 'yeyuexia'
+                        name 'yeyuexia'
+                        email 'yyxworld@gmail.com'
+                    }
                 }
             }
         }
@@ -93,7 +98,7 @@ targetCompatibility = 1.6
 
 dependencies {
     testCompile 'junit:junit:4.11'
-    compile 'com.google.guava:guava:16.0'
+
     compile 'commons-beanutils:commons-beanutils:1.9.2'
 }
 

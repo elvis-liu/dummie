@@ -26,6 +26,6 @@ public class BooleanFieldValueGenerator extends FieldValueGenerator {
 
     @Override
     public Object generate(DummyCache cache, Class<?> fieldType, String fieldName) {
-        return false;
+        return Boolean.FALSE;
     }
 }

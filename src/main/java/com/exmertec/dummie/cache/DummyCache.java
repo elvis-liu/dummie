@@ -1,16 +1,16 @@
 package com.exmertec.dummie.cache;
 
-import com.exmertec.dummie.cache.impl.BasicDataCache;
-import com.exmertec.dummie.generator.FieldValueGenerator;
-
 import java.lang.reflect.Field;
+
+import com.exmertec.dummie.cache.impl.KeyValueDataCache;
+import com.exmertec.dummie.generator.FieldValueGenerator;
 
 public abstract class DummyCache implements GeneratorCache {
 
     private DataCache dataCache;
 
     public DummyCache() {
-        this.dataCache = new BasicDataCache();
+        this.dataCache = new KeyValueDataCache();
     }
 
     public DummyCache(DataCache dataCache) {
@@ -38,7 +38,6 @@ public abstract class DummyCache implements GeneratorCache {
                 value = generator.generate(this, dataType, key);
             }
             try {
-
                 dataCache.cacheData(dataType, key, Class.forName(dataType.getName()).cast(value));
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
