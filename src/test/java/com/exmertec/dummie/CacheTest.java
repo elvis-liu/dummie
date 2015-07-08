@@ -1,13 +1,11 @@
 package com.exmertec.dummie;
 
-import org.junit.Test;
-
-import java.util.List;
-
 import static com.exmertec.dummie.Dummie.create;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+
+import org.junit.Test;
 
 public class CacheTest {
 
