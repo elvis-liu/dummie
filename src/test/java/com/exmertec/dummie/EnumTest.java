@@ -1,12 +1,13 @@
 package com.exmertec.dummie;
 
-import org.junit.Test;
-
 import static com.exmertec.dummie.Dummie.create;
+import static com.exmertec.dummie.Dummie.prepare;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 public class EnumTest {
 
@@ -26,8 +27,21 @@ public class EnumTest {
         assertEquals(null, emptyEnumData.getDataType());
     }
 
+    @Test
+    public void should_cache_same_type_field_with_diff_field() {
+        CacheEnumData cacheEnumData = prepare(CacheEnumData.class)
+                .override("dataType", DataType.INTEGER)
+                .override("dataType1", DataType.FLOAT)
+                .build();
+
+        assertThat(cacheEnumData, not(nullValue()));
+        assertEquals(DataType.INTEGER, cacheEnumData.getDataType());
+        assertEquals(DataType.FLOAT, cacheEnumData.getDataType1());
+        assertEquals(DataType.STRING, cacheEnumData.getDataType2());
+    }
+
     public static enum DataType {
-        STRING, INTEGER
+        STRING, INTEGER, FLOAT
     }
     public static class EnumData {
         private DataType dataType;
@@ -53,6 +67,38 @@ public class EnumTest {
 
         public void setDataType(EmptyDataType dataType) {
             this.dataType = dataType;
+        }
+    }
+
+    public static class CacheEnumData {
+        private DataType dataType;
+
+        private DataType dataType1;
+
+        private DataType dataType2;
+
+        public DataType getDataType() {
+            return dataType;
+        }
+
+        public void setDataType(DataType dataType) {
+            this.dataType = dataType;
+        }
+
+        public DataType getDataType1() {
+            return dataType1;
+        }
+
+        public void setDataType1(DataType dataType1) {
+            this.dataType1 = dataType1;
+        }
+
+        public DataType getDataType2() {
+            return dataType2;
+        }
+
+        public void setDataType2(DataType dataType2) {
+            this.dataType2 = dataType2;
         }
     }
 }
