@@ -1,13 +1,13 @@
 package com.exmertec.dummie;
 
-import org.junit.Test;
-
 import static com.exmertec.dummie.Dummie.create;
 import static com.exmertec.dummie.Dummie.prepare;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+
+import org.junit.Test;
 
 public class StringTest {
     @Test
@@ -18,12 +18,12 @@ public class StringTest {
         assertThat(data.getStringValue(), is("stringValue"));
     }
 
-//    @Test
-//    public void should_allow_customize_string_type_fields() throws Exception {
-//        StringData data = prepare(StringData.class).override(String.class, "test").build();
-//
-//        assertThat(data.getStringValue(), is("test"));
-//    }
+    @Test
+    public void should_allow_customize_string_type_fields() throws Exception {
+        StringData data = prepare(StringData.class).override("stringValue", "test").build();
+
+        assertThat(data.getStringValue(), is("test"));
+    }
 
     @Test
     public void should_not_write_fields_without_setter() throws Exception {
