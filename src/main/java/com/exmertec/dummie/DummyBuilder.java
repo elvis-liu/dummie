@@ -1,11 +1,11 @@
 package com.exmertec.dummie;
 
+import com.exmertec.dummie.cache.DummyCache;
+import com.exmertec.dummie.cache.impl.DefaultCache;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtilsBean;
-
-import com.exmertec.dummie.cache.DummyCache;
-import com.exmertec.dummie.cache.impl.DefaultCache;
 
 import java.lang.reflect.Field;
 
@@ -44,6 +44,11 @@ public class DummyBuilder<T> {
 
     public <E> DummyBuilder<T> override(String key, E value) {
         cache.cacheData(value.getClass(), key, value);
+        return this;
+    }
+
+    public <E> DummyBuilder<T> override(Class<E> clazz, E value) {
+        cache.cacheData(clazz, value);
         return this;
     }
 }

@@ -1,9 +1,9 @@
 package com.exmertec.dummie.cache;
 
-import java.lang.reflect.Field;
-
 import com.exmertec.dummie.cache.impl.KeyValueDataCache;
 import com.exmertec.dummie.generator.FieldValueGenerator;
+
+import java.lang.reflect.Field;
 
 public abstract class DummyCache implements GeneratorCache {
 
@@ -50,4 +50,7 @@ public abstract class DummyCache implements GeneratorCache {
         dataCache.cacheData(dataType, key, value);
     }
 
+    public <T> void cacheData(Class<T> clazz, Object value) {
+        dataCache.cacheData(clazz, value);
+    }
 }

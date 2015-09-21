@@ -26,7 +26,13 @@ public class KeyValueDataCache extends BasicDataCache {
 
     @Override
     public <T> T getCachedData(Class<T> dataType, String key) {
-        Map datas = keyValueCachedData.get(normalize(dataType));
+        T result = getKeyValueCachedData(dataType, key);
+        return result != null ? result : super.getCachedData(dataType, key);
+    }
+
+    private <T> T getKeyValueCachedData(Class<T> dataType, String key) {
+        Class<?> cacheDataType = normalize(dataType);
+        Map datas = keyValueCachedData.get(cacheDataType);
         if (datas != null) {
             return (T) datas.get(key);
         }
