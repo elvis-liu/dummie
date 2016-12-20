@@ -8,6 +8,7 @@ import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtilsBean;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 
 public class DummyBuilder<T> {
     private final Class<T> type;
@@ -25,20 +26,32 @@ public class DummyBuilder<T> {
     public T build() {
         try {
             T instance = type.newInstance();
-            Field[] fields = type.getDeclaredFields();
-            PropertyUtilsBean propertyUtils = BeanUtilsBean.getInstance().getPropertyUtils();
-
-            for (Field field : fields) {
-                if (!propertyUtils.isWriteable(instance, field.getName())) {
-                    continue;
-                }
-
-                Object value = cache.getCachedData(field);
-                BeanUtils.setProperty(instance, field.getName(), value);
-            }
+            inflateInstance(instance, type);
             return instance;
         } catch (Exception e) {
             throw new DummieException(e);
+        }
+    }
+
+    private void inflateFields(T instance, Class<?> classType) throws IllegalAccessException,
+        InvocationTargetException {
+        Field[] fields = classType.getDeclaredFields();
+        PropertyUtilsBean propertyUtils = BeanUtilsBean.getInstance().getPropertyUtils();
+
+        for (Field field : fields) {
+            if (!propertyUtils.isWriteable(instance, field.getName())) {
+                continue;
+            }
+
+            Object value = cache.getCachedData(field);
+            BeanUtils.setProperty(instance, field.getName(), value);
+        }
+    }
+
+    private void inflateInstance(T instance, Class<?> type) throws InvocationTargetException, IllegalAccessException {
+        if (type != null) {
+            inflateFields(instance, type);
+            inflateInstance(instance, type.getSuperclass());
         }
     }
 
