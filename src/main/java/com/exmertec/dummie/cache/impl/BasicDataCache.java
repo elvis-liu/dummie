@@ -1,12 +1,12 @@
 package com.exmertec.dummie.cache.impl;
 
+import com.exmertec.dummie.cache.DataCache;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import com.exmertec.dummie.cache.DataCache;
-
 public class BasicDataCache implements DataCache {
-    private final Map<Class<?>, Object> cachedData;
+    protected final Map<Class<?>, Object> cachedData;
 
     private final Map<Class<?>, Class<?>> primToWrap = new HashMap<Class<?>, Class<?>>(16);
 
@@ -32,6 +32,19 @@ public class BasicDataCache implements DataCache {
             return primToWrap.get(dataType);
         }
         return dataType;
+    }
+
+    @Override
+    public <T> void cacheData(Class<T> dataType, Object value) {
+        if (dataType.isPrimitive()) {
+            dataType = (Class<T>) primToWrap.get(dataType);
+        }
+        if (!(value == null || dataType.isInstance(value))) {
+            throw new ClassCastException(value + " cannot be cast to " + dataType);
+        }
+        if (!cachedData.containsKey(dataType)) {
+            cachedData.put(dataType, value);
+        }
     }
 
     @Override
