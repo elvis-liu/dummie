@@ -1,6 +1,7 @@
 package com.exmertec.dummie;
 
 import static com.exmertec.dummie.Dummie.create;
+import static com.exmertec.dummie.Dummie.withStrategy;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -23,7 +24,7 @@ public class MapTest {
 
     @Test
     public void should_create_object_with_random_strategy() {
-        MapData data = new DummyBuilderFactory().withStrategy(GenerationStrategy.RANDOM).create(MapData.class);
+        MapData data = withStrategy(GenerationStrategy.RANDOM).create(MapData.class);
 
         validateSimpleMap(data);
     }
@@ -43,7 +44,7 @@ public class MapTest {
 
     @Test
     public void should_create_object_with_mix_map_field_and_random_strategy() {
-        MixMapData data = new DummyBuilderFactory().withStrategy(GenerationStrategy.RANDOM).create(MixMapData.class);
+        MixMapData data = withStrategy(GenerationStrategy.RANDOM).create(MixMapData.class);
 
         validateMixMap(data);
     }

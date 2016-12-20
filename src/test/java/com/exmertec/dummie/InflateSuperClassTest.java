@@ -1,5 +1,6 @@
 package com.exmertec.dummie;
 
+import static com.exmertec.dummie.Dummie.withStrategy;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNot.not;
@@ -17,7 +18,7 @@ public class InflateSuperClassTest {
 
     @Test
     public void should_create_object_with_random_strategy() throws Exception {
-        Employee employee = new DummyBuilderFactory().withStrategy(GenerationStrategy.RANDOM).create(Employee.class);
+        Employee employee = withStrategy(GenerationStrategy.RANDOM).create(Employee.class);
 
         validate(employee);
     }

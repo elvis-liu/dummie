@@ -2,6 +2,7 @@ package com.exmertec.dummie;
 
 import static com.exmertec.dummie.Dummie.create;
 import static com.exmertec.dummie.Dummie.prepare;
+import static com.exmertec.dummie.Dummie.withStrategy;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -21,8 +22,7 @@ public class PrimitivesTest {
 
     @Test
     public void should_create_object_with_random_strategy() throws Exception {
-        PrimitiveData data = new DummyBuilderFactory()
-            .withStrategy(GenerationStrategy.RANDOM)
+        PrimitiveData data = withStrategy(GenerationStrategy.RANDOM)
             .create(PrimitiveData.class);
 
         assertThat(data, not(nullValue()));
@@ -39,8 +39,7 @@ public class PrimitivesTest {
 
     @Test
     public void should_customize_override_fields_with_random_strategy() throws Exception {
-        PrimitiveData data = new DummyBuilderFactory()
-            .withStrategy(GenerationStrategy.RANDOM)
+        PrimitiveData data = withStrategy(GenerationStrategy.RANDOM)
             .prepare(PrimitiveData.class)
             .override("booleanValue", true)
             .build();

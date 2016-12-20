@@ -1,6 +1,7 @@
 package com.exmertec.dummie;
 
 import static com.exmertec.dummie.Dummie.create;
+import static com.exmertec.dummie.Dummie.withStrategy;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -30,7 +31,7 @@ public class ListTest {
 
     @Test
     public void should_create_object_with_random_strategy() throws Exception {
-        ListData data = new DummyBuilderFactory().withStrategy(GenerationStrategy.RANDOM).create(ListData.class);
+        ListData data = withStrategy(GenerationStrategy.RANDOM).create(ListData.class);
 
         validateSimpleList(data);
     }
@@ -44,7 +45,7 @@ public class ListTest {
 
     @Test
     public void should_create_object_with_mix_list_field_and_random_strategy() throws Exception {
-        MixListData data = new DummyBuilderFactory().withStrategy(GenerationStrategy.RANDOM).create(MixListData.class);
+        MixListData data = withStrategy(GenerationStrategy.RANDOM).create(MixListData.class);
 
         validateMixList(data);
     }

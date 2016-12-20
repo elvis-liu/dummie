@@ -2,6 +2,7 @@ package com.exmertec.dummie;
 
 import static com.exmertec.dummie.Dummie.create;
 import static com.exmertec.dummie.Dummie.prepare;
+import static com.exmertec.dummie.Dummie.withStrategy;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -32,8 +33,7 @@ public class EnumTest {
 
     @Test
     public void should_create_object_with_random_strategy() throws Exception {
-        EnumData enumData = new DummyBuilderFactory()
-            .withStrategy(GenerationStrategy.RANDOM)
+        EnumData enumData = withStrategy(GenerationStrategy.RANDOM)
             .create(EnumData.class);
 
         assertThat(enumData, not(nullValue()));
@@ -42,8 +42,7 @@ public class EnumTest {
 
     @Test
     public void should_create_object_with_random_strategy_and_empty_constant() throws Exception {
-        EmptyEnumData emptyEnumData = new DummyBuilderFactory()
-            .withStrategy(GenerationStrategy.RANDOM)
+        EmptyEnumData emptyEnumData = withStrategy(GenerationStrategy.RANDOM)
             .create(EmptyEnumData.class);
 
         assertThat(emptyEnumData, not(nullValue()));

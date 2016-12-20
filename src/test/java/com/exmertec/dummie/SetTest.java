@@ -2,6 +2,7 @@ package com.exmertec.dummie;
 
 
 import static com.exmertec.dummie.Dummie.create;
+import static com.exmertec.dummie.Dummie.withStrategy;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -43,8 +44,7 @@ public class SetTest {
 
     @Test
     public void should_create_object_with_set_field_and_random_strategy() {
-        MixSetData data = new DummyBuilderFactory()
-            .withStrategy(GenerationStrategy.RANDOM)
+        MixSetData data = withStrategy(GenerationStrategy.RANDOM)
             .create(MixSetData.class);
 
         validateMixSetData(data);

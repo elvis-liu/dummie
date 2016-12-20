@@ -1,6 +1,7 @@
 package com.exmertec.dummie;
 
 import static com.exmertec.dummie.Dummie.create;
+import static com.exmertec.dummie.Dummie.withStrategy;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,8 +22,7 @@ public class ListCacheTest {
 
     @Test
     public void should_create_object_with_random_strategy() {
-        NestingData1 nestingData1 = new DummyBuilderFactory()
-            .withStrategy(GenerationStrategy.RANDOM)
+        NestingData1 nestingData1 = withStrategy(GenerationStrategy.RANDOM)
             .create(NestingData1.class);
 
         validate(nestingData1);

@@ -2,6 +2,7 @@ package com.exmertec.dummie;
 
 import static com.exmertec.dummie.Dummie.create;
 import static com.exmertec.dummie.Dummie.prepare;
+import static com.exmertec.dummie.Dummie.withStrategy;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -21,8 +22,7 @@ public class StringTest {
 
     @Test
     public void should_create_object_with_random_strategy() throws Exception {
-        StringData data = new DummyBuilderFactory()
-            .withStrategy(GenerationStrategy.RANDOM)
+        StringData data = withStrategy(GenerationStrategy.RANDOM)
             .create(StringData.class);
 
         assertThat(data, not(nullValue()));
