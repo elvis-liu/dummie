@@ -5,25 +5,61 @@ import com.exmertec.dummie.cache.DummyCache;
 import com.exmertec.dummie.cache.impl.DefaultCache;
 import com.exmertec.dummie.cache.impl.LevelCache;
 
-public class DummyBuilderFactory {
-    private DummyLogic dummyLogic;
-    private Integer floor;
+public abstract class DummyBuilderFactory {
+    protected BuilderConfiguration configuration;
 
-    public DummyBuilderFactory(DummyLogic dummyLogic, Integer floor) {
-        this.dummyLogic = dummyLogic;
-        this.floor = floor;
+    protected DummyBuilderFactory() {
+        configuration = new BuilderConfiguration();
     }
 
-    public <T> DummyBuilder<T> create(Class<T> type) {
-        DummyCache cache = null;
-        switch (dummyLogic) {
+    public static DummyBuilderFactory use(DummyLogic logic) {
+        switch (logic) {
             case CYCLE:
-                cache = new DefaultCache();
-                break;
+                return new DefaultBuilderFactory();
             case LEVEL:
-                cache = new LevelCache(floor);
-                break;
+                return new LevelBuilderFactory();
+            default:
+                throw new IllegalArgumentException();
         }
-        return new DummyBuilder(type, cache);
+    }
+
+    public void withFloor(int floor) {
+        configuration.setFloor(floor);
+    }
+
+    public <T> DummyBuilder<T> prepare(Class<T> type) {
+        return new DummyBuilder(type, getCache());
+    }
+
+    public <T> T create(Class<T> type) {
+        return new DummyBuilder<T>(type, getCache()).build();
+    }
+
+    protected abstract DummyCache getCache();
+
+    private static class LevelBuilderFactory extends DummyBuilderFactory {
+        @Override
+        protected DummyCache getCache() {
+            return new LevelCache(configuration.getFloor());
+        }
+    }
+
+    private static class DefaultBuilderFactory extends DummyBuilderFactory {
+        @Override
+        protected DummyCache getCache() {
+            return new DefaultCache();
+        }
+    }
+
+    private class BuilderConfiguration {
+        private Integer floor;
+
+        public Integer getFloor() {
+            return floor;
+        }
+
+        public void setFloor(Integer floor) {
+            this.floor = floor;
+        }
     }
 }
