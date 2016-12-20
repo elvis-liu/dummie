@@ -3,6 +3,7 @@ package com.exmertec.dummie;
 import com.exmertec.dummie.cache.DummyCache;
 import com.exmertec.dummie.cache.impl.DefaultCache;
 import com.exmertec.dummie.configuration.GenerationStrategy;
+import com.exmertec.dummie.generator.Inflater;
 
 public class DummyBuilder<T> {
     private final Class<T> type;
