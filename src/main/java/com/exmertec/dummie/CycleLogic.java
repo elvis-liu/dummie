@@ -1,5 +1,5 @@
 package com.exmertec.dummie;
 
-public enum DummyLogic {
+public enum CycleLogic {
     LEVEL, CYCLE
 }

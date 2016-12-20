@@ -12,7 +12,7 @@ public abstract class DummyBuilderFactory {
         configuration = new BuilderConfiguration();
     }
 
-    public static DummyBuilderFactory use(DummyLogic logic) {
+    public static DummyBuilderFactory use(CycleLogic logic) {
         switch (logic) {
             case CYCLE:
                 return new DefaultBuilderFactory();
@@ -52,7 +52,7 @@ public abstract class DummyBuilderFactory {
     }
 
     private class BuilderConfiguration {
-        private Integer floor;
+        private Integer floor = 2;
 
         public Integer getFloor() {
             return floor;

@@ -14,7 +14,7 @@ import java.util.Set;
 public class LevelCacheTest {
     @Test
     public void should_create_object_with_matched_floor() throws Exception {
-        NestingData3 data = DummyBuilderFactory.use(DummyLogic.LEVEL).create(NestingData3.class);
+        NestingData3 data = DummyBuilderFactory.use(CycleLogic.LEVEL).create(NestingData3.class);
 
         assertThat(data, not(nullValue()));
         assertThat(data.getData(), not(nullValue()));
@@ -27,7 +27,7 @@ public class LevelCacheTest {
 
     @Test
     public void should_create_object_with_floor_and_cycle_itself() throws Exception {
-        NestingData1 data = DummyBuilderFactory.use(DummyLogic.LEVEL).create(NestingData1.class);
+        NestingData1 data = DummyBuilderFactory.use(CycleLogic.LEVEL).create(NestingData1.class);
 
         assertThat(data, not(nullValue()));
         assertThat(data.getName(), not(nullValue()));
