@@ -1,12 +1,17 @@
 package com.exmertec.dummie.cache.impl;
 
 import com.exmertec.dummie.cache.DummyCache;
+import com.exmertec.dummie.configuration.GenerationStrategy;
 import com.exmertec.dummie.generator.FieldValueGenerator;
 import com.exmertec.dummie.generator.impl.CustomTypeFieldValueGenerator;
 
 import java.lang.reflect.Field;
 
 public class DefaultCache extends DummyCache {
+
+    public DefaultCache(GenerationStrategy generationStrategy) {
+        super(generationStrategy);
+    }
 
     @Override
     public Object getCachedData(Field field) {
@@ -31,6 +36,6 @@ public class DefaultCache extends DummyCache {
 
     @Override
     protected FieldValueGenerator getDefaultFieldValueGenerator(Class<?> dataType) {
-        return new CustomTypeFieldValueGenerator(dataType);
+        return new CustomTypeFieldValueGenerator(strategy, dataType);
     }
 }

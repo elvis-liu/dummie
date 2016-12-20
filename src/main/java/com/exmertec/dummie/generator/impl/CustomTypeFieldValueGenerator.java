@@ -3,14 +3,14 @@ package com.exmertec.dummie.generator.impl;
 import com.exmertec.dummie.DummieException;
 import com.exmertec.dummie.Inflater;
 import com.exmertec.dummie.cache.DummyCache;
+import com.exmertec.dummie.configuration.GenerationStrategy;
 import com.exmertec.dummie.generator.FieldValueGenerator;
-
-import java.lang.reflect.Field;
 
 public class CustomTypeFieldValueGenerator<T> extends FieldValueGenerator {
     private final Class<T> type;
 
-    public CustomTypeFieldValueGenerator(Class<T> type) {
+    public CustomTypeFieldValueGenerator(GenerationStrategy strategy, Class<T> type) {
+        super(strategy);
         this.type = type;
     }
 
@@ -20,12 +20,12 @@ public class CustomTypeFieldValueGenerator<T> extends FieldValueGenerator {
     }
 
     @Override
-    public Object generate(DummyCache cache, Field field) {
-        return generate(cache, field.getType(), field.getName());
+    protected T defaultGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
+        return randomGenerator(cache, fieldType, fieldName);
     }
 
     @Override
-    public Object generate(DummyCache cache, Class<?> fieldType, String fieldName) {
+    protected T randomGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
         try {
             T instance = type.newInstance();
 

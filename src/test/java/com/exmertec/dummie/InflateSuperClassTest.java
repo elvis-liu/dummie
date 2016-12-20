@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNot.not;
 
+import com.exmertec.dummie.configuration.GenerationStrategy;
 import org.junit.Test;
 
 public class InflateSuperClassTest {
@@ -11,8 +12,22 @@ public class InflateSuperClassTest {
     public void should_success_inflate_super_class() throws Exception {
         Employee employee = Dummie.create(Employee.class);
 
-        assertThat(employee, not(nullValue()));
+        validate(employee);
+    }
 
+    @Test
+    public void should_create_object_with_random_strategy() throws Exception {
+        Employee employee = new DummyBuilderFactory().withStrategy(GenerationStrategy.RANDOM).create(Employee.class);
+
+        validate(employee);
+    }
+
+    private void validate(Employee employee) {
+        assertThat(employee, not(nullValue()));
+        assertThat(employee.getName(), not(nullValue()));
+        assertThat(employee.getAvatar(), not(nullValue()));
+        assertThat(employee.getAge(), not(nullValue()));
+        assertThat(employee.isOnHoliday(), not(nullValue()));
     }
 
     public static class People {

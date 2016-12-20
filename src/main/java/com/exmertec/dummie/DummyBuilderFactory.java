@@ -41,9 +41,9 @@ public class DummyBuilderFactory {
     private DummyCache getCache() {
         switch (configuration.getCycleLogic()) {
             case CYCLE:
-                return new DefaultCache();
+                return new DefaultCache(configuration.getGenerationStrategy());
             case LEVEL:
-                return new LevelCache(configuration.getFloor());
+                return new LevelCache(configuration.getGenerationStrategy(), configuration.getFloor());
             default:
                 throw new IllegalArgumentException();
         }

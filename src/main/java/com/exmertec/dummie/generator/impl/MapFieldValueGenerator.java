@@ -2,6 +2,7 @@ package com.exmertec.dummie.generator.impl;
 
 import com.exmertec.dummie.cache.Constant;
 import com.exmertec.dummie.cache.DummyCache;
+import com.exmertec.dummie.configuration.GenerationStrategy;
 import com.exmertec.dummie.generator.FieldValueGenerator;
 
 import java.lang.reflect.Field;
@@ -11,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MapFieldValueGenerator extends FieldValueGenerator {
-    public MapFieldValueGenerator() {
-        super(Map.class);
+    public MapFieldValueGenerator(GenerationStrategy strategy) {
+        super(strategy, Map.class);
     }
 
     // TODO: not support enum map
@@ -34,7 +35,7 @@ public class MapFieldValueGenerator extends FieldValueGenerator {
     }
 
     @Override
-    public Object generate(DummyCache cache, Field field) {
+    public Map generate(DummyCache cache, Field field) {
         Map value = generateValue(field.getType());
 
         Type genericType = field.getGenericType();
@@ -56,7 +57,17 @@ public class MapFieldValueGenerator extends FieldValueGenerator {
     }
 
     @Override
-    public Object generate(DummyCache cache, Class<?> fieldType, String fieldName) {
+    public Map generate(DummyCache cache, Class<?> fieldType, String fieldName) {
         return generateValue(fieldType);
+    }
+
+    @Override
+    protected Object defaultGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
+        return null;
+    }
+
+    @Override
+    protected Object randomGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
+        return null;
     }
 }

@@ -1,23 +1,24 @@
 package com.exmertec.dummie.generator.impl;
 
 import com.exmertec.dummie.cache.DummyCache;
+import com.exmertec.dummie.configuration.GenerationStrategy;
 import com.exmertec.dummie.generator.FieldValueGenerator;
 
-import java.lang.reflect.Field;
+import java.util.Random;
 
 public class DoubleFieldValueGenerator extends FieldValueGenerator {
 
-    public DoubleFieldValueGenerator() {
-        super(Double.class, double.class);
+    public DoubleFieldValueGenerator(GenerationStrategy strategy) {
+        super(strategy, Double.class, double.class);
     }
 
     @Override
-    public Object generate(DummyCache cache, Field field) {
-        return generate(cache, field.getType(), field.getName());
-    }
-
-    @Override
-    public Object generate(DummyCache cache, Class<?> fieldType, String fieldName) {
+    protected Double defaultGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
         return 0d;
+    }
+
+    @Override
+    protected Double randomGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
+        return new Random().nextDouble();
     }
 }

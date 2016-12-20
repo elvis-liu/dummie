@@ -1,31 +1,24 @@
 package com.exmertec.dummie.generator.impl;
 
 import com.exmertec.dummie.cache.DummyCache;
+import com.exmertec.dummie.configuration.GenerationStrategy;
 import com.exmertec.dummie.generator.FieldValueGenerator;
 
-import java.lang.reflect.Field;
+import java.util.Random;
 
 public class CharacterFieldValueGenerator extends FieldValueGenerator {
 
-    public CharacterFieldValueGenerator() {
-        super(Character.class, char.class);
-    }
-
-    protected Character doGenerate(DummyCache cache, Class<?> fieldType, String fieldName) {
-        return '\u0000';
-    }
-
-    protected Character doGenerate(DummyCache cache, Field field) {
-        return doGenerate(cache, field.getType(), field.getName());
+    public CharacterFieldValueGenerator(GenerationStrategy strategy) {
+        super(strategy, Character.class, char.class);
     }
 
     @Override
-    public Object generate(DummyCache cache, Field field) {
-        return generate(cache, field.getType(), field.getName());
+    protected Character defaultGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
+        return '\u0000';
     }
 
     @Override
-    public Object generate(DummyCache cache, Class<?> fieldType, String fieldName) {
-        return '\u0000';
+    protected Character randomGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
+        return String.valueOf(new Random().nextInt(128)).charAt(0);
     }
 }
