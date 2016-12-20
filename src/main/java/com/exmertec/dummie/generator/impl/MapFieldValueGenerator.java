@@ -1,6 +1,5 @@
 package com.exmertec.dummie.generator.impl;
 
-import com.exmertec.dummie.cache.Constant;
 import com.exmertec.dummie.cache.DummyCache;
 import com.exmertec.dummie.configuration.GenerationStrategy;
 import com.exmertec.dummie.generator.FieldValueGenerator;
@@ -44,8 +43,8 @@ public class MapFieldValueGenerator extends FieldValueGenerator {
             Class<?> keyClass = (Class<?>) parameterizedType.getActualTypeArguments()[0];
             Class<?> valueClass = (Class<?>) parameterizedType.getActualTypeArguments()[1];
 
-            value.put(cache.getCachedData(keyClass, Constant.DEFAULT_STRING_VALUE),
-                cache.getCachedData(valueClass, Constant.DEFAULT_STRING_VALUE));
+            value.put(cache.getCachedData(keyClass, generateKeyValue()),
+                cache.getCachedData(valueClass, generateKeyValue()));
         }
 
         return value;

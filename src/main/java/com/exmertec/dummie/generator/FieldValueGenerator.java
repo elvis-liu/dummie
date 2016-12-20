@@ -1,9 +1,11 @@
 package com.exmertec.dummie.generator;
 
+import com.exmertec.dummie.cache.Constant;
 import com.exmertec.dummie.cache.DummyCache;
 import com.exmertec.dummie.configuration.GenerationStrategy;
 
 import java.lang.reflect.Field;
+import java.util.UUID;
 
 public abstract class FieldValueGenerator {
     private final Class<?>[] fieldTypes;
@@ -25,6 +27,10 @@ public abstract class FieldValueGenerator {
             default:
                 return defaultGenerator(cache, fieldType, fieldName);
         }
+    }
+
+    protected String generateKeyValue() {
+        return strategy == GenerationStrategy.RANDOM ? UUID.randomUUID().toString() : Constant.DEFAULT_STRING_VALUE;
     }
 
     protected abstract Object defaultGenerator(DummyCache cache, Class<?> fieldType, String fieldName);
