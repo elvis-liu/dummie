@@ -25,7 +25,7 @@ public class CacheTest {
         NestingData1 nestingData1 = prepare(NestingData1.class).override(String.class, "abc").build();
 
         assertThat(nestingData1, not(nullValue()));
-        assertThat(nestingData1.getName(), equals("abc"));
+        assertThat(nestingData1.getName(), equalTo("abc"));
         assertThat(nestingData1.getNestingData2s(), not(nullValue()));
         assertThat(nestingData1.getNestingData2s().getData(), not(nullValue()));
     }
