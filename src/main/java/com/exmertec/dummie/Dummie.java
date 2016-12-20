@@ -6,6 +6,6 @@ public class Dummie {
     }
 
     public static <T> DummyBuilder<T> prepare(Class<T> type) {
-        return new DummyBuilder(type);
+        return new DummyBuilderFactory().prepare(type);
     }
 }

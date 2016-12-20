@@ -6,24 +6,38 @@ import com.exmertec.dummie.cache.impl.DefaultCache;
 import com.exmertec.dummie.cache.impl.LevelCache;
 
 public class DummyBuilderFactory {
-    private DummyLogic dummyLogic;
-    private Integer floor;
+    protected Configuration configuration;
 
-    public DummyBuilderFactory(DummyLogic dummyLogic, Integer floor) {
-        this.dummyLogic = dummyLogic;
-        this.floor = floor;
+    public DummyBuilderFactory() {
+        configuration = new Configuration(CycleLogic.CYCLE);
     }
 
-    public <T> DummyBuilder<T> create(Class<T> type) {
-        DummyCache cache = null;
-        switch (dummyLogic) {
+    public DummyBuilderFactory cycleLogic(CycleLogic logic) {
+        configuration.setCycleLogic(logic);
+        return this;
+    }
+
+    public DummyBuilderFactory withFloor(int floor) {
+        configuration.setFloor(floor);
+        return this;
+    }
+
+    public <T> DummyBuilder<T> prepare(Class<T> type) {
+        return new DummyBuilder(type, getCache());
+    }
+
+    public <T> T create(Class<T> type) {
+        return new DummyBuilder<T>(type, getCache()).build();
+    }
+
+    private DummyCache getCache() {
+        switch (configuration.getCycleLogic()) {
             case CYCLE:
-                cache = new DefaultCache();
-                break;
+                return new DefaultCache();
             case LEVEL:
-                cache = new LevelCache(floor);
-                break;
+                return new LevelCache(configuration.getFloor());
+            default:
+                throw new IllegalArgumentException();
         }
-        return new DummyBuilder(type, cache);
     }
 }
