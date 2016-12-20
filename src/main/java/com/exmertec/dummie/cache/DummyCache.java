@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class DummyCache implements GeneratorCache {
+public abstract class DummyCache {
 
     private final List<FieldValueGenerator> cachedGenerator;
 
@@ -126,7 +126,6 @@ public abstract class DummyCache implements GeneratorCache {
         return switchGeneratorStrategy(getCachedGenerator(dataType), dataType, key);
     }
 
-    @Override
     public FieldValueGenerator getCachedGenerator(Class<?> dataType) {
         for (FieldValueGenerator generator: cachedGenerator) {
             if (generator.isMatchType(dataType)) {
@@ -137,10 +136,9 @@ public abstract class DummyCache implements GeneratorCache {
         return getDefaultFieldValueGenerator(dataType);
     }
 
-    protected abstract FieldValueGenerator getDefaultFieldValueGenerator(Class<?> dataType);
-
-    @Override
     public void cacheGenerator(FieldValueGenerator generator) {
         cachedGenerator.add(generator);
     }
+
+    protected abstract FieldValueGenerator getDefaultFieldValueGenerator(Class<?> dataType);
 }
