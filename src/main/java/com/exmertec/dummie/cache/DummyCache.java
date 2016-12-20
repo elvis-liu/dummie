@@ -5,7 +5,6 @@ import com.exmertec.dummie.generator.FieldValueGenerator;
 import com.exmertec.dummie.generator.impl.BooleanFieldValueGenerator;
 import com.exmertec.dummie.generator.impl.ByteFieldValueGenerator;
 import com.exmertec.dummie.generator.impl.CharacterFieldValueGenerator;
-import com.exmertec.dummie.generator.impl.CustomTypeFieldValueGenerator;
 import com.exmertec.dummie.generator.impl.DoubleFieldValueGenerator;
 import com.exmertec.dummie.generator.impl.EnumFieldValueGenerator;
 import com.exmertec.dummie.generator.impl.FloatFieldValueGenerator;
@@ -92,8 +91,10 @@ public abstract class DummyCache implements GeneratorCache {
             }
         }
 
-        return new CustomTypeFieldValueGenerator(dataType);
+        return getDefaultFieldValueGenerator(dataType);
     }
+
+    protected abstract FieldValueGenerator getDefaultFieldValueGenerator(Class<?> dataType);
 
     @Override
     public void cacheGenerator(FieldValueGenerator generator) {

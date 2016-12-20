@@ -1,6 +1,8 @@
 package com.exmertec.dummie.cache.impl;
 
+import com.exmertec.dummie.DummyBuilder;
 import com.exmertec.dummie.cache.DummyCache;
+import com.exmertec.dummie.generator.FieldValueGenerator;
 
 import java.lang.reflect.Field;
 import java.util.Stack;
@@ -37,5 +39,20 @@ public class LevelCache extends DummyCache {
 
     public Object getCachedData(Field field) {
         return isOverFloor(field) ? null : super.getCachedData(field);
+    }
+
+    @Override
+    protected FieldValueGenerator getDefaultFieldValueGenerator(Class<?> dataType) {
+        return new FieldValueGenerator() {
+            @Override
+            public Object generate(DummyCache cache, Field field) {
+                return generate(cache, field.getType(), field.getName());
+            }
+
+            @Override
+            public Object generate(DummyCache cache, Class<?> fieldType, String fieldName) {
+                return new DummyBuilder(fieldType, cache).build();
+            }
+        };
     }
 }
