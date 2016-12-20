@@ -6,6 +6,7 @@ import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
 
+import com.exmertec.dummie.configuration.CycleLogic;
 import org.junit.Test;
 
 import java.util.List;

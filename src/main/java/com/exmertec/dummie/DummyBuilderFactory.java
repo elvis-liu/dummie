@@ -4,6 +4,9 @@ package com.exmertec.dummie;
 import com.exmertec.dummie.cache.DummyCache;
 import com.exmertec.dummie.cache.impl.DefaultCache;
 import com.exmertec.dummie.cache.impl.LevelCache;
+import com.exmertec.dummie.configuration.Configuration;
+import com.exmertec.dummie.configuration.CycleLogic;
+import com.exmertec.dummie.configuration.GenerationStrategy;
 
 public class DummyBuilderFactory {
     protected Configuration configuration;

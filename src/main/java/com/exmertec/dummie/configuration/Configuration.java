@@ -1,4 +1,4 @@
-package com.exmertec.dummie;
+package com.exmertec.dummie.configuration;
 
 public class Configuration {
     private Integer floor;
