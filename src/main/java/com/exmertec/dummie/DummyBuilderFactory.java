@@ -5,26 +5,21 @@ import com.exmertec.dummie.cache.DummyCache;
 import com.exmertec.dummie.cache.impl.DefaultCache;
 import com.exmertec.dummie.cache.impl.LevelCache;
 
-public abstract class DummyBuilderFactory {
+public class DummyBuilderFactory {
     protected BuilderConfiguration configuration;
 
-    protected DummyBuilderFactory() {
-        configuration = new BuilderConfiguration();
+    public DummyBuilderFactory() {
+        configuration = new BuilderConfiguration(CycleLogic.CYCLE);
     }
 
-    public static DummyBuilderFactory use(CycleLogic logic) {
-        switch (logic) {
-            case CYCLE:
-                return new DefaultBuilderFactory();
-            case LEVEL:
-                return new LevelBuilderFactory();
-            default:
-                throw new IllegalArgumentException();
-        }
+    public DummyBuilderFactory cycleLogic(CycleLogic logic) {
+        configuration.setCycleLogic(logic);
+        return this;
     }
 
-    public void withFloor(int floor) {
+    public DummyBuilderFactory withFloor(int floor) {
         configuration.setFloor(floor);
+        return this;
     }
 
     public <T> DummyBuilder<T> prepare(Class<T> type) {
@@ -35,24 +30,24 @@ public abstract class DummyBuilderFactory {
         return new DummyBuilder<T>(type, getCache()).build();
     }
 
-    protected abstract DummyCache getCache();
-
-    private static class LevelBuilderFactory extends DummyBuilderFactory {
-        @Override
-        protected DummyCache getCache() {
-            return new LevelCache(configuration.getFloor());
-        }
-    }
-
-    private static class DefaultBuilderFactory extends DummyBuilderFactory {
-        @Override
-        protected DummyCache getCache() {
-            return new DefaultCache();
+    private DummyCache getCache() {
+        switch (configuration.getCycleLogic()) {
+            case CYCLE:
+                return new DefaultCache();
+            case LEVEL:
+                return new LevelCache(configuration.getFloor());
+            default:
+                throw new IllegalArgumentException();
         }
     }
 
     private class BuilderConfiguration {
-        private Integer floor = 2;
+        private Integer floor;
+        private CycleLogic cycleLogic;
+
+        public BuilderConfiguration(CycleLogic cycleLogic) {
+            setCycleLogic(cycleLogic);
+        }
 
         public Integer getFloor() {
             return floor;
@@ -60,6 +55,17 @@ public abstract class DummyBuilderFactory {
 
         public void setFloor(Integer floor) {
             this.floor = floor;
+        }
+
+        public CycleLogic getCycleLogic() {
+            return cycleLogic;
+        }
+
+        public void setCycleLogic(CycleLogic cycleLogic) {
+            this.cycleLogic = cycleLogic;
+            if (cycleLogic == CycleLogic.LEVEL) { // set default floor value
+                floor = 2;
+            }
         }
     }
 }
