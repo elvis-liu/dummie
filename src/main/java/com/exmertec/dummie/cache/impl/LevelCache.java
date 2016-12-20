@@ -1,9 +1,11 @@
 package com.exmertec.dummie.cache.impl;
 
+import com.exmertec.dummie.cache.DummyCache;
+
 import java.lang.reflect.Field;
 import java.util.Stack;
 
-public class LevelCache extends DefaultCache {
+public class LevelCache extends DummyCache {
 
     private Integer floor;
 

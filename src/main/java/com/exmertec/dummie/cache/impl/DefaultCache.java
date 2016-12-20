@@ -1,49 +1,29 @@
 package com.exmertec.dummie.cache.impl;
 
 import com.exmertec.dummie.cache.DummyCache;
-import com.exmertec.dummie.generator.FieldValueGenerator;
-import com.exmertec.dummie.generator.impl.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.reflect.Field;
 
 public class DefaultCache extends DummyCache {
-    private final List<FieldValueGenerator> cachedGenerator;
 
-    public DefaultCache() {
-        cachedGenerator = new ArrayList<FieldValueGenerator>();
-        addDefaultGenerators();
-    }
+    @Override
+    public Object getCachedData(Field field) {
+        Object value = super.getCachedData(field);
+        dataCache.cacheData(field.getType(), field.getName(), value);
 
-    private void addDefaultGenerators() {
-        cachedGenerator.add(new StringFieldValueGenerator());
-        cachedGenerator.add(new ListFieldValueGenerator());
-        cachedGenerator.add(new MapFieldValueGenerator());
-        cachedGenerator.add(new SetFieldValueGenerator());
-        cachedGenerator.add(new BooleanFieldValueGenerator());
-        cachedGenerator.add(new ByteFieldValueGenerator());
-        cachedGenerator.add(new CharacterFieldValueGenerator());
-        cachedGenerator.add(new DoubleFieldValueGenerator());
-        cachedGenerator.add(new FloatFieldValueGenerator());
-        cachedGenerator.add(new IntegerFieldValueGenerator());
-        cachedGenerator.add(new LongFieldValueGenerator());
-        cachedGenerator.add(new ShortFieldValueGenerator());
-        cachedGenerator.add(new EnumFieldValueGenerator());
+        return value;
     }
 
     @Override
-    public FieldValueGenerator getCachedGenerator(Class<?> dataType) {
-        for (FieldValueGenerator generator: cachedGenerator) {
-            if (generator.isMatchType(dataType)) {
-                return generator;
-            }
+    public Object getCachedData(Class<?> dataType, String key) {
+        Object value = super.getCachedData(dataType, key);
+
+        try {
+            dataCache.cacheData(dataType, key, Class.forName(dataType.getName()).cast(value));
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
 
-        return new CustomTypeFieldValueGenerator(dataType);
-    }
-
-    @Override
-    public void cacheGenerator(FieldValueGenerator generator) {
-        cachedGenerator.add(generator);
+        return value;
     }
 }
