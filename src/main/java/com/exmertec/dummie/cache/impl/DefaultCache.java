@@ -16,7 +16,7 @@ public class DefaultCache extends DummyCache {
     @Override
     public Object getCachedData(Field field) {
         Object value = super.getCachedData(field);
-        cacheData(field.getType(), field.getName(), value);
+        dynamicCacheData(field.getType(), field.getName(), value);
 
         return value;
     }
@@ -26,7 +26,7 @@ public class DefaultCache extends DummyCache {
         Object value = super.getCachedData(dataType, key);
 
         try {
-            cacheData(dataType, key, Class.forName(dataType.getName()).cast(value));
+            dynamicCacheData(dataType, key, Class.forName(dataType.getName()).cast(value));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
