@@ -3,9 +3,11 @@ package com.exmertec.dummie;
 public class Configuration {
     private Integer floor;
     private CycleLogic cycleLogic;
+    private GenerationStrategy generationStrategy;
 
-    public Configuration(CycleLogic cycleLogic) {
+    public Configuration(CycleLogic cycleLogic, GenerationStrategy strategy) {
         setCycleLogic(cycleLogic);
+        setGenerationStrategy(strategy);
     }
 
     public Integer getFloor() {
@@ -25,5 +27,13 @@ public class Configuration {
         if (cycleLogic == CycleLogic.LEVEL) { // set default floor value
             floor = 2;
         }
+    }
+
+    public GenerationStrategy getGenerationStrategy() {
+        return generationStrategy;
+    }
+
+    public void setGenerationStrategy(GenerationStrategy generationStrategy) {
+        this.generationStrategy = generationStrategy;
     }
 }

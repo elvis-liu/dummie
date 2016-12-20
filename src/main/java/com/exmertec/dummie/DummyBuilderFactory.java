@@ -9,7 +9,7 @@ public class DummyBuilderFactory {
     protected Configuration configuration;
 
     public DummyBuilderFactory() {
-        configuration = new Configuration(CycleLogic.CYCLE);
+        configuration = new Configuration(CycleLogic.CYCLE, GenerationStrategy.DEFAULT);
     }
 
     public DummyBuilderFactory cycleLogic(CycleLogic logic) {
@@ -19,6 +19,11 @@ public class DummyBuilderFactory {
 
     public DummyBuilderFactory withFloor(int floor) {
         configuration.setFloor(floor);
+        return this;
+    }
+
+    public DummyBuilderFactory withStrategy(GenerationStrategy strategy) {
+        configuration.setGenerationStrategy(strategy);
         return this;
     }
 
