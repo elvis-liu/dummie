@@ -10,7 +10,7 @@ public abstract class DummyCache implements GeneratorCache {
     private DataCache dataCache;
 
     public DummyCache() {
-        this.dataCache = new KeyValueDataCache();
+        this(new KeyValueDataCache());
     }
 
     public DummyCache(DataCache dataCache) {

@@ -1,11 +1,11 @@
 package com.exmertec.dummie.cache.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.exmertec.dummie.cache.DummyCache;
 import com.exmertec.dummie.generator.FieldValueGenerator;
 import com.exmertec.dummie.generator.impl.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DefaultCache extends DummyCache {
     private final List<FieldValueGenerator> cachedGenerator;
