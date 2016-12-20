@@ -6,10 +6,10 @@ import com.exmertec.dummie.cache.impl.DefaultCache;
 import com.exmertec.dummie.cache.impl.LevelCache;
 
 public class DummyBuilderFactory {
-    protected BuilderConfiguration configuration;
+    protected Configuration configuration;
 
     public DummyBuilderFactory() {
-        configuration = new BuilderConfiguration(CycleLogic.CYCLE);
+        configuration = new Configuration(CycleLogic.CYCLE);
     }
 
     public DummyBuilderFactory cycleLogic(CycleLogic logic) {
@@ -38,34 +38,6 @@ public class DummyBuilderFactory {
                 return new LevelCache(configuration.getFloor());
             default:
                 throw new IllegalArgumentException();
-        }
-    }
-
-    private class BuilderConfiguration {
-        private Integer floor;
-        private CycleLogic cycleLogic;
-
-        public BuilderConfiguration(CycleLogic cycleLogic) {
-            setCycleLogic(cycleLogic);
-        }
-
-        public Integer getFloor() {
-            return floor;
-        }
-
-        public void setFloor(Integer floor) {
-            this.floor = floor;
-        }
-
-        public CycleLogic getCycleLogic() {
-            return cycleLogic;
-        }
-
-        public void setCycleLogic(CycleLogic cycleLogic) {
-            this.cycleLogic = cycleLogic;
-            if (cycleLogic == CycleLogic.LEVEL) { // set default floor value
-                floor = 2;
-            }
         }
     }
 }
