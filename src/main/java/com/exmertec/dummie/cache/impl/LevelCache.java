@@ -17,7 +17,7 @@ public class LevelCache extends DefaultCache {
     }
 
     // TODO: still has bug if a class has field with same type as itself.
-    public boolean isOverFloor(Field field) {
+     private boolean isOverFloor(Field field) {
         if (parents.empty()) {
             parents.push(field.getDeclaringClass());
         } else if (parents.contains(field.getDeclaringClass())) {
