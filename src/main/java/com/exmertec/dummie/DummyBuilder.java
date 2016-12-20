@@ -36,4 +36,14 @@ public class DummyBuilder<T> {
         cache.cacheData(clazz, value);
         return this;
     }
+
+    public <E> DummyBuilder<T> random(Class<E> clazz) {
+        cache.random(clazz);
+        return this;
+    }
+
+    public <E> DummyBuilder<T> random(String key) {
+        cache.random(key);
+        return this;
+    }
 }
