@@ -1,4 +1,4 @@
-package com.exmertec.dummie;
+package com.exmertec.dummie.generator;
 
 import com.exmertec.dummie.cache.DummyCache;
 import org.apache.commons.beanutils.BeanUtils;

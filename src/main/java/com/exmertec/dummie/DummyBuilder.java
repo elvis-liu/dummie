@@ -1,16 +1,11 @@
 package com.exmertec.dummie;
 
 import com.exmertec.dummie.cache.DummyCache;
-import com.exmertec.dummie.cache.impl.DefaultCache;
-import com.exmertec.dummie.configuration.GenerationStrategy;
+import com.exmertec.dummie.generator.Inflater;
 
 public class DummyBuilder<T> {
     private final Class<T> type;
     private final DummyCache cache;
-
-    public DummyBuilder(Class<T> type) {
-        this(type, new DefaultCache(GenerationStrategy.DEFAULT));
-    }
 
     public DummyBuilder(Class<T> type, DummyCache cache) {
         this.type = type;

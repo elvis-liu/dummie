@@ -1,7 +1,7 @@
 package com.exmertec.dummie.generator.impl;
 
 import com.exmertec.dummie.DummieException;
-import com.exmertec.dummie.Inflater;
+import com.exmertec.dummie.generator.Inflater;
 import com.exmertec.dummie.cache.DummyCache;
 import com.exmertec.dummie.generator.FieldValueGenerator;
 
