@@ -6,9 +6,10 @@ import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
 
+import org.junit.Test;
+
 import java.util.List;
 import java.util.Set;
-import org.junit.Test;
 
 public class LevelCacheTest {
     @Test
@@ -24,6 +25,23 @@ public class LevelCacheTest {
         assertThat(data.getData().getData().getNestingData2s(), is(nullValue()));
         assertThat(data.getData1s(), not(nullValue()));
         assertThat(data.getData1s().toArray()[0], notNullValue());
+    }
+
+    @Test
+    public void should_create_object_with_floor_and_cycle_itself() throws Exception {
+        DummyBuilderFactory factory = new DummyBuilderFactory(DummyLogic.LEVEL, 2);
+
+        NestingData1 data = factory.create(NestingData1.class).build();
+
+        assertThat(data, not(nullValue()));
+        assertThat(data.getName(), not(nullValue()));
+        assertThat(data.getNestingData2s(), not(nullValue()));
+        assertThat(data.getNestingData2s().size(), is(1));
+        assertThat(data.getNestingData2s().get(0), not(nullValue()));
+        assertThat(data.getNestingData2s().get(0).getDesc(), not(nullValue()));
+        assertThat(data.getNestingData2s().get(0).getData(), not(nullValue()));
+        assertThat(data.getNestingData2s().get(0).getData().getName(), is(nullValue()));
+        assertThat(data.getNestingData2s().get(0).getData().getNestingData2s(), is(nullValue()));
     }
 
     public static class NestingData1 {
@@ -70,6 +88,9 @@ public class LevelCacheTest {
 
     public static class NestingData3 {
         private String desc;
+        private Integer size;
+        private Long length;
+        private Character character;
         private NestingData2 data;
         private Set<NestingData1> data1s;
 
@@ -79,6 +100,30 @@ public class LevelCacheTest {
 
         public void setDesc(String desc) {
             this.desc = desc;
+        }
+
+        public Integer getSize() {
+            return size;
+        }
+
+        public void setSize(Integer size) {
+            this.size = size;
+        }
+
+        public Long getLength() {
+            return length;
+        }
+
+        public void setLength(Long length) {
+            this.length = length;
+        }
+
+        public Character getCharacter() {
+            return character;
+        }
+
+        public void setCharacter(Character character) {
+            this.character = character;
         }
 
         public NestingData2 getData() {
