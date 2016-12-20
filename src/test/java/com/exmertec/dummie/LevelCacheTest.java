@@ -1,11 +1,15 @@
 package com.exmertec.dummie;
 
+import static com.exmertec.dummie.Dummie.cycleLogic;
+import static com.exmertec.dummie.Dummie.withStrategy;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
 
+import com.exmertec.dummie.configuration.CycleLogic;
+import com.exmertec.dummie.configuration.GenerationStrategy;
 import org.junit.Test;
 
 import java.util.List;
@@ -14,8 +18,12 @@ import java.util.Set;
 public class LevelCacheTest {
     @Test
     public void should_create_object_with_matched_floor() throws Exception {
-        NestingData3 data = new DummyBuilderFactory().cycleLogic(CycleLogic.LEVEL).create(NestingData3.class);
+        NestingData3 data = cycleLogic(CycleLogic.LEVEL).create(NestingData3.class);
 
+        validateNestingData3(data);
+    }
+
+    private void validateNestingData3(NestingData3 data) {
         assertThat(data, not(nullValue()));
         assertThat(data.getData(), not(nullValue()));
         assertThat(data.getData().getData(), notNullValue());
@@ -26,9 +34,31 @@ public class LevelCacheTest {
     }
 
     @Test
-    public void should_create_object_with_floor_and_cycle_itself() throws Exception {
-        NestingData1 data = new DummyBuilderFactory().cycleLogic(CycleLogic.LEVEL).create(NestingData1.class);
+    public void should_create_object_with_strategy_and_floor() throws Exception {
+        NestingData3 data = withStrategy(GenerationStrategy.RANDOM)
+            .cycleLogic(CycleLogic.LEVEL)
+            .create(NestingData3.class);
 
+        validateNestingData3(data);
+    }
+
+    @Test
+    public void should_create_object_with_floor_and_cycle_itself() throws Exception {
+        NestingData1 data = cycleLogic(CycleLogic.LEVEL).create(NestingData1.class);
+
+        validateNestingData1(data);
+    }
+
+    @Test
+    public void should_create_object_with_random_strategy_and_cycle_itself() throws Exception {
+        NestingData1 data = withStrategy(GenerationStrategy.RANDOM)
+            .cycleLogic(CycleLogic.LEVEL)
+            .create(NestingData1.class);
+
+        validateNestingData1(data);
+    }
+
+    private void validateNestingData1(NestingData1 data) {
         assertThat(data, not(nullValue()));
         assertThat(data.getName(), not(nullValue()));
         assertThat(data.getNestingData2s(), not(nullValue()));

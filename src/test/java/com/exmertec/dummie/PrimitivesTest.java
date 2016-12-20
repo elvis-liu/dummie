@@ -2,11 +2,13 @@ package com.exmertec.dummie;
 
 import static com.exmertec.dummie.Dummie.create;
 import static com.exmertec.dummie.Dummie.prepare;
+import static com.exmertec.dummie.Dummie.withStrategy;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import com.exmertec.dummie.configuration.GenerationStrategy;
 import org.junit.Test;
 
 public class PrimitivesTest {
@@ -19,9 +21,30 @@ public class PrimitivesTest {
     }
 
     @Test
+    public void should_create_object_with_random_strategy() throws Exception {
+        PrimitiveData data = withStrategy(GenerationStrategy.RANDOM)
+            .create(PrimitiveData.class);
+
+        assertThat(data, not(nullValue()));
+        assertThat(data.isBooleanValue(), not(nullValue()));
+    }
+
+    @Test
     public void should_allow_customize_primitive_type_fields() throws Exception {
         PrimitiveData data = prepare(PrimitiveData.class).override("booleanValue", true).build();
 
+        assertThat(data, not(nullValue()));
+        assertThat(data.isBooleanValue(), is(true));
+    }
+
+    @Test
+    public void should_customize_override_fields_with_random_strategy() throws Exception {
+        PrimitiveData data = withStrategy(GenerationStrategy.RANDOM)
+            .prepare(PrimitiveData.class)
+            .override("booleanValue", true)
+            .build();
+
+        assertThat(data, not(nullValue()));
         assertThat(data.isBooleanValue(), is(true));
     }
 

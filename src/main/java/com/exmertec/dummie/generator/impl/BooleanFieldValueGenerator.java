@@ -3,7 +3,7 @@ package com.exmertec.dummie.generator.impl;
 import com.exmertec.dummie.cache.DummyCache;
 import com.exmertec.dummie.generator.FieldValueGenerator;
 
-import java.lang.reflect.Field;
+import java.util.Random;
 
 public class BooleanFieldValueGenerator extends FieldValueGenerator {
 
@@ -11,21 +11,13 @@ public class BooleanFieldValueGenerator extends FieldValueGenerator {
         super(Boolean.class, boolean.class);
     }
 
-    protected Boolean doGenerate(DummyCache cache, Class<?> fieldType, String fieldName) {
-        return false;
-    }
-
-    protected Boolean doGenerate(DummyCache cache, Field field) {
-        return doGenerate(cache, field.getType(), field.getName());
-    }
-
     @Override
-    public Object generate(DummyCache cache, Field field) {
-        return generate(cache, field.getType(), field.getName());
-    }
-
-    @Override
-    public Object generate(DummyCache cache, Class<?> fieldType, String fieldName) {
+    protected Boolean defaultGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
         return Boolean.FALSE;
+    }
+
+    @Override
+    protected Boolean randomGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
+        return new Random().nextBoolean();
     }
 }

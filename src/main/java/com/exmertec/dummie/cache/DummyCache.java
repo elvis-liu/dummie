@@ -1,6 +1,7 @@
 package com.exmertec.dummie.cache;
 
 import com.exmertec.dummie.cache.impl.KeyValueDataCache;
+import com.exmertec.dummie.configuration.GenerationStrategy;
 import com.exmertec.dummie.generator.FieldValueGenerator;
 import com.exmertec.dummie.generator.impl.BooleanFieldValueGenerator;
 import com.exmertec.dummie.generator.impl.ByteFieldValueGenerator;
@@ -18,7 +19,9 @@ import com.exmertec.dummie.generator.impl.StringFieldValueGenerator;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public abstract class DummyCache implements GeneratorCache {
 
@@ -26,13 +29,24 @@ public abstract class DummyCache implements GeneratorCache {
 
     protected DataCache dataCache;
 
-    public DummyCache() {
-        this(new KeyValueDataCache());
+    protected GenerationStrategy strategy;
+
+    private final Set<String> randomFieldKeys;
+
+    private final Set<Class<?>> randomFieldType;
+
+    public DummyCache(GenerationStrategy strategy) {
+        this(strategy, new KeyValueDataCache());
     }
 
-    public DummyCache(DataCache dataCache) {
+    public DummyCache(GenerationStrategy strategy, DataCache dataCache) {
         this.dataCache = dataCache;
+        this.strategy = strategy;
+
         cachedGenerator = new ArrayList<FieldValueGenerator>();
+        randomFieldKeys = new HashSet<String>();
+        randomFieldType = new HashSet<Class<?>>();
+
         addDefaultGenerators();
     }
 
@@ -56,7 +70,7 @@ public abstract class DummyCache implements GeneratorCache {
         Class<?> fieldType = field.getType();
         Object value = dataCache.getCachedData(fieldType, field.getName());
         if (value == null) {
-            FieldValueGenerator generator = getCachedGenerator(fieldType);
+            FieldValueGenerator generator = getGenerator(fieldType, field.getName());
             if (generator != null) {
                 value = generator.generate(this, field);
             }
@@ -67,7 +81,7 @@ public abstract class DummyCache implements GeneratorCache {
     public Object getCachedData(Class<?> dataType, String key) {
         Object value = dataCache.getCachedData(dataType, key);
         if (value == null) {
-            FieldValueGenerator generator = getCachedGenerator(dataType);
+            FieldValueGenerator generator = getGenerator(dataType, key);
             if (generator != null) {
                 value = generator.generate(this, dataType, key);
             }
@@ -81,6 +95,35 @@ public abstract class DummyCache implements GeneratorCache {
 
     public <T> void cacheData(Class<T> clazz, Object value) {
         dataCache.cacheData(clazz, value);
+    }
+
+    public <T> void dynamicCacheData(Class<T> dataType, String key, Object value) {
+        if (getStrategy(dataType, key) == GenerationStrategy.DEFAULT) {
+            dataCache.cacheData(dataType, key, value);
+        }
+    }
+
+    public void random(Class<?> clazz) {
+        randomFieldType.add(clazz);
+    }
+
+    public void random(String key) {
+        randomFieldKeys.add(key);
+    }
+
+    protected GenerationStrategy getStrategy(Class<?> dataType, String key) {
+        return randomFieldType.contains(dataType) || randomFieldKeys.contains(key) ?
+            GenerationStrategy.RANDOM : strategy;
+    }
+
+    protected FieldValueGenerator switchGeneratorStrategy(FieldValueGenerator generator,
+                                                          Class<?> dataType, String key) {
+        generator.setStrategy(getStrategy(dataType, key));
+        return generator;
+    }
+
+    public FieldValueGenerator getGenerator(Class<?> dataType, String key) {
+        return switchGeneratorStrategy(getCachedGenerator(dataType), dataType, key);
     }
 
     @Override

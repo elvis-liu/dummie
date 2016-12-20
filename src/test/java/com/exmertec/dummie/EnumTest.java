@@ -2,11 +2,15 @@ package com.exmertec.dummie;
 
 import static com.exmertec.dummie.Dummie.create;
 import static com.exmertec.dummie.Dummie.prepare;
+import static com.exmertec.dummie.Dummie.withStrategy;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 
+import com.exmertec.dummie.configuration.GenerationStrategy;
 import org.junit.Test;
 
 public class EnumTest {
@@ -16,7 +20,7 @@ public class EnumTest {
         EnumData enumData = create(EnumData.class);
 
         assertThat(enumData, not(nullValue()));
-        assertEquals(DataType.STRING, enumData.getDataType());
+        assertThat(enumData.getDataType(), equalTo(DataType.STRING));
     }
 
     @Test
@@ -24,7 +28,25 @@ public class EnumTest {
         EmptyEnumData emptyEnumData = create(EmptyEnumData.class);
 
         assertThat(emptyEnumData, not(nullValue()));
-        assertEquals(null, emptyEnumData.getDataType());
+        assertThat(emptyEnumData.getDataType(), is(nullValue()));
+    }
+
+    @Test
+    public void should_create_object_with_random_strategy() throws Exception {
+        EnumData enumData = withStrategy(GenerationStrategy.RANDOM)
+            .create(EnumData.class);
+
+        assertThat(enumData, not(nullValue()));
+        assertThat(enumData.getDataType(), not(nullValue()));
+    }
+
+    @Test
+    public void should_create_object_with_random_strategy_and_empty_constant() throws Exception {
+        EmptyEnumData emptyEnumData = withStrategy(GenerationStrategy.RANDOM)
+            .create(EmptyEnumData.class);
+
+        assertThat(emptyEnumData, not(nullValue()));
+        assertThat(emptyEnumData.getDataType(), is(nullValue()));
     }
 
     @Test

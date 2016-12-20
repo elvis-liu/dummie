@@ -3,7 +3,7 @@ package com.exmertec.dummie.generator.impl;
 import com.exmertec.dummie.cache.DummyCache;
 import com.exmertec.dummie.generator.FieldValueGenerator;
 
-import java.lang.reflect.Field;
+import java.util.UUID;
 
 public class StringFieldValueGenerator extends FieldValueGenerator {
     public StringFieldValueGenerator() {
@@ -11,12 +11,12 @@ public class StringFieldValueGenerator extends FieldValueGenerator {
     }
 
     @Override
-    public String generate(DummyCache cache, Field field) {
-        return generate(cache, field.getType(), field.getName());
+    protected String defaultGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
+        return fieldName;
     }
 
     @Override
-    public String generate(DummyCache cache, Class<?> fieldType, String fieldName) {
-        return fieldName;
+    protected String randomGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
+        return UUID.randomUUID().toString();
     }
 }

@@ -2,11 +2,13 @@ package com.exmertec.dummie;
 
 import static com.exmertec.dummie.Dummie.create;
 import static com.exmertec.dummie.Dummie.prepare;
+import static com.exmertec.dummie.Dummie.withStrategy;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
+import com.exmertec.dummie.configuration.GenerationStrategy;
 import org.junit.Test;
 
 public class StringTest {
@@ -16,6 +18,15 @@ public class StringTest {
 
         assertThat(data, not(nullValue()));
         assertThat(data.getStringValue(), is("stringValue"));
+    }
+
+    @Test
+    public void should_create_object_with_random_strategy() throws Exception {
+        StringData data = withStrategy(GenerationStrategy.RANDOM)
+            .create(StringData.class);
+
+        assertThat(data, not(nullValue()));
+        assertThat(data.getStringValue(), not(nullValue()));
     }
 
     @Test

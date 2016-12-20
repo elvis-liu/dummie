@@ -2,15 +2,18 @@ package com.exmertec.dummie;
 
 
 import static com.exmertec.dummie.Dummie.create;
+import static com.exmertec.dummie.Dummie.withStrategy;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
+import com.exmertec.dummie.configuration.GenerationStrategy;
+import org.junit.Test;
+
 import java.util.HashSet;
 import java.util.Set;
-import org.junit.Test;
 
 public class SetTest {
 
@@ -36,6 +39,21 @@ public class SetTest {
     public void should_create_diff_cache_for_set_and_hashset() throws Exception {
         MixSetData data = create(MixSetData.class);
 
+        validateMixSetData(data);
+    }
+
+    @Test
+    public void should_create_object_with_set_field_and_random_strategy() {
+        MixSetData data = withStrategy(GenerationStrategy.RANDOM)
+            .create(MixSetData.class);
+
+        validateMixSetData(data);
+    }
+
+    private void validateMixSetData(MixSetData data) {
+        assertThat(data, not(nullValue()));
+        assertThat(data.getNotParameterized().size(), is(0));
+        assertThat(data.getParameterized().size(), is(1));
         assertThat(data.getParameterized(), not(equalTo((Set)data.getNotParameterizedHashSet())));
     }
 

@@ -1,6 +1,5 @@
 package com.exmertec.dummie;
 
-import static com.exmertec.dummie.Dummie.create;
 import static com.exmertec.dummie.Dummie.prepare;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
@@ -9,51 +8,55 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
-public class CacheTest {
+public class RandomTest {
 
     @Test
-    public void should_create_object() {
-        NestingData1 nestingData1 = create(NestingData1.class);
+    public void should_prepare_class_and_custom_random() throws Exception {
+        NestingData1 nestingData1 = prepare(NestingData1.class).random(String.class).build();
 
         assertThat(nestingData1, not(nullValue()));
+        assertThat(nestingData1.getName(), not(nullValue()));
+        assertThat(nestingData1.getName(), not(equalTo("name")));
         assertThat(nestingData1.getNestingData2s(), not(nullValue()));
         assertThat(nestingData1.getNestingData2s().getData(), not(nullValue()));
     }
 
     @Test
-    public void should_prepare_class_and_success_cached() throws Exception {
-        NestingData1 nestingData1 = prepare(NestingData1.class).override(String.class, "abc").build();
-
-        assertThat(nestingData1, not(nullValue()));
-        assertThat(nestingData1.getName(), equalTo("abc"));
-        assertThat(nestingData1.getNestingData2s(), not(nullValue()));
-        assertThat(nestingData1.getNestingData2s().getData(), not(nullValue()));
-    }
-
-    @Test
-    public void should_prepare_class_and_field_then_first_lookup_field() throws Exception {
+    public void should_prepare_class_and_set_random_strategy_by_filed_name() throws Exception {
         NestingData1 nestingData1 = prepare(NestingData1.class)
-            .override(String.class, "abc")
-            .override("name", "edf")
+            .random("name")
             .build();
 
         assertThat(nestingData1, not(nullValue()));
-        assertThat(nestingData1.getName(), equalTo("edf"));
+        assertThat(nestingData1.getName(), not(nullValue()));
+        assertThat(nestingData1.getName(), not(equalTo("name")));
         assertThat(nestingData1.getNestingData2s(), not(nullValue()));
         assertThat(nestingData1.getNestingData2s().getData(), not(nullValue()));
     }
 
     @Test
-    public void should_prepare_class_and_another_same_type_field_then_give_class_cache() throws Exception {
+    public void should_prepare_class_and_not_set_random_with_wrong_field_name() throws Exception {
         NestingData1 nestingData1 = prepare(NestingData1.class)
             .override(String.class, "abc")
-            .override("name1", "edf")
+            .random("name1")
             .build();
 
         assertThat(nestingData1, not(nullValue()));
         assertThat(nestingData1.getName(), equalTo("abc"));
         assertThat(nestingData1.getNestingData2s(), not(nullValue()));
         assertThat(nestingData1.getNestingData2s().getData(), not(nullValue()));
+    }
+
+    @Test
+    public void should_return_different_value_when_set_random() throws Exception {
+        NestingData3 nestingData3 = prepare(NestingData3.class)
+            .random(String.class)
+            .build();
+
+        assertThat(nestingData3, not(nullValue()));
+        assertThat(nestingData3.getName(), not(nullValue()));
+        assertThat(nestingData3.getDesc(), not(nullValue()));
+        assertThat(nestingData3.getDesc(), not(equalTo(nestingData3.getName())));
     }
 
     public static class NestingData1 {
@@ -95,6 +98,27 @@ public class CacheTest {
 
         public void setData(NestingData1 data) {
             this.data = data;
+        }
+    }
+
+    public static class NestingData3 {
+        private String name;
+        private String desc;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
         }
     }
 }

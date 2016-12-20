@@ -3,7 +3,7 @@ package com.exmertec.dummie.generator.impl;
 import com.exmertec.dummie.cache.DummyCache;
 import com.exmertec.dummie.generator.FieldValueGenerator;
 
-import java.lang.reflect.Field;
+import java.util.Random;
 
 public class ByteFieldValueGenerator extends FieldValueGenerator {
 
@@ -12,12 +12,14 @@ public class ByteFieldValueGenerator extends FieldValueGenerator {
     }
 
     @Override
-    public Byte generate(DummyCache cache, Field field) {
-        return generate(cache, field.getType(), field.getName());
+    protected Byte defaultGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
+        return (byte) 0;
     }
 
     @Override
-    public Byte generate(DummyCache cache, Class<?> fieldType, String fieldName) {
-        return (byte) 0;
+    protected Byte randomGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
+        byte[] bytes = new byte[1];
+        new Random().nextBytes(bytes);
+        return bytes[0];
     }
 }
