@@ -36,6 +36,6 @@ public class DefaultCache extends DummyCache {
 
     @Override
     protected FieldValueGenerator getDefaultFieldValueGenerator(Class<?> dataType) {
-        return new CustomTypeFieldValueGenerator(strategy, dataType);
+        return new CustomTypeFieldValueGenerator(dataType);
     }
 }

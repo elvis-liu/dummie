@@ -1,7 +1,6 @@
 package com.exmertec.dummie.generator.impl;
 
 import com.exmertec.dummie.cache.DummyCache;
-import com.exmertec.dummie.configuration.GenerationStrategy;
 import com.exmertec.dummie.generator.FieldValueGenerator;
 
 import java.lang.reflect.Field;
@@ -12,8 +11,8 @@ import java.util.Set;
 
 public class SetFieldValueGenerator extends FieldValueGenerator {
 
-    public SetFieldValueGenerator(GenerationStrategy strategy) {
-        super(strategy, Set.class);
+    public SetFieldValueGenerator() {
+        super(Set.class);
     }
 
     private Set generateValue(Class<?> type) {

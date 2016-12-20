@@ -9,12 +9,17 @@ import java.util.UUID;
 
 public abstract class FieldValueGenerator {
     private final Class<?>[] fieldTypes;
-    protected final GenerationStrategy strategy;
+    protected GenerationStrategy strategy;
+
+    protected FieldValueGenerator(Class<?>... fieldTypes) {
+        this(GenerationStrategy.DEFAULT, fieldTypes);
+    }
 
     protected FieldValueGenerator(GenerationStrategy strategy, Class<?>... fieldTypes) {
         this.strategy = strategy;
         this.fieldTypes = fieldTypes;
     }
+
     public Object generate(DummyCache cache, Field field) {
         return generate(cache, field.getType(), field.getName());
     }
@@ -44,5 +49,9 @@ public abstract class FieldValueGenerator {
             }
         }
         return false;
+    }
+
+    public void setStrategy(GenerationStrategy strategy) {
+        this.strategy = strategy;
     }
 }

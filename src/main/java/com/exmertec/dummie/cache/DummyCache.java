@@ -42,19 +42,19 @@ public abstract class DummyCache implements GeneratorCache {
     }
 
     private void addDefaultGenerators() {
-        cachedGenerator.add(new StringFieldValueGenerator(strategy));
-        cachedGenerator.add(new ListFieldValueGenerator(strategy));
-        cachedGenerator.add(new MapFieldValueGenerator(strategy));
-        cachedGenerator.add(new SetFieldValueGenerator(strategy));
-        cachedGenerator.add(new BooleanFieldValueGenerator(strategy));
-        cachedGenerator.add(new ByteFieldValueGenerator(strategy));
-        cachedGenerator.add(new CharacterFieldValueGenerator(strategy));
-        cachedGenerator.add(new DoubleFieldValueGenerator(strategy));
-        cachedGenerator.add(new FloatFieldValueGenerator(strategy));
-        cachedGenerator.add(new IntegerFieldValueGenerator(strategy));
-        cachedGenerator.add(new LongFieldValueGenerator(strategy));
-        cachedGenerator.add(new ShortFieldValueGenerator(strategy));
-        cachedGenerator.add(new EnumFieldValueGenerator(strategy));
+        cachedGenerator.add(new StringFieldValueGenerator());
+        cachedGenerator.add(new ListFieldValueGenerator());
+        cachedGenerator.add(new MapFieldValueGenerator());
+        cachedGenerator.add(new SetFieldValueGenerator());
+        cachedGenerator.add(new BooleanFieldValueGenerator());
+        cachedGenerator.add(new ByteFieldValueGenerator());
+        cachedGenerator.add(new CharacterFieldValueGenerator());
+        cachedGenerator.add(new DoubleFieldValueGenerator());
+        cachedGenerator.add(new FloatFieldValueGenerator());
+        cachedGenerator.add(new IntegerFieldValueGenerator());
+        cachedGenerator.add(new LongFieldValueGenerator());
+        cachedGenerator.add(new ShortFieldValueGenerator());
+        cachedGenerator.add(new EnumFieldValueGenerator());
     }
 
     public Object getCachedData(Field field) {

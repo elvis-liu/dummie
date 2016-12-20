@@ -1,15 +1,14 @@
 package com.exmertec.dummie.generator.impl;
 
 import com.exmertec.dummie.cache.DummyCache;
-import com.exmertec.dummie.configuration.GenerationStrategy;
 import com.exmertec.dummie.generator.FieldValueGenerator;
 
 import java.util.Random;
 
 public class ByteFieldValueGenerator extends FieldValueGenerator {
 
-    public ByteFieldValueGenerator(GenerationStrategy strategy) {
-        super(strategy, Byte.class, byte.class);
+    public ByteFieldValueGenerator() {
+        super(Byte.class, byte.class);
     }
 
     @Override

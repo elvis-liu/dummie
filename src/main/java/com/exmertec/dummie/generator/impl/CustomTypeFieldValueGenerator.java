@@ -3,14 +3,13 @@ package com.exmertec.dummie.generator.impl;
 import com.exmertec.dummie.DummieException;
 import com.exmertec.dummie.Inflater;
 import com.exmertec.dummie.cache.DummyCache;
-import com.exmertec.dummie.configuration.GenerationStrategy;
 import com.exmertec.dummie.generator.FieldValueGenerator;
 
 public class CustomTypeFieldValueGenerator<T> extends FieldValueGenerator {
     private final Class<T> type;
 
-    public CustomTypeFieldValueGenerator(GenerationStrategy strategy, Class<T> type) {
-        super(strategy);
+    public CustomTypeFieldValueGenerator(Class<T> type) {
+        super();
         this.type = type;
     }
 

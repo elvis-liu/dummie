@@ -60,7 +60,7 @@ public class LevelCache extends DummyCache {
 
     @Override
     protected FieldValueGenerator getDefaultFieldValueGenerator(Class<?> dataType) {
-        return new FieldValueGenerator(strategy) {
+        return new FieldValueGenerator() {
             @Override
             public Object generate(DummyCache cache, Field field) {
                 return generate(cache, field.getType(), field.getName());

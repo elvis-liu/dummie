@@ -1,15 +1,14 @@
 package com.exmertec.dummie.generator.impl;
 
 import com.exmertec.dummie.cache.DummyCache;
-import com.exmertec.dummie.configuration.GenerationStrategy;
 import com.exmertec.dummie.generator.FieldValueGenerator;
 
 import java.util.Random;
 
 public class LongFieldValueGenerator extends FieldValueGenerator {
 
-    public LongFieldValueGenerator(GenerationStrategy strategy) {
-        super(strategy, Long.class, long.class);
+    public LongFieldValueGenerator() {
+        super(Long.class, long.class);
     }
 
     @Override
