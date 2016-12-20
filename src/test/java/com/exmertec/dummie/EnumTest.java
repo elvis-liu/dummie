@@ -40,7 +40,7 @@ public class EnumTest {
         assertEquals(DataType.STRING, cacheEnumData.getDataType2());
     }
 
-    public static enum DataType {
+    public enum DataType {
         STRING, INTEGER, FLOAT
     }
     public static class EnumData {
@@ -55,7 +55,7 @@ public class EnumTest {
         }
     }
 
-    public static enum EmptyDataType {
+    public enum EmptyDataType {
     }
 
     public static class EmptyEnumData {
