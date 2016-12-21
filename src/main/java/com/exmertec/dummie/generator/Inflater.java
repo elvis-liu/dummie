@@ -9,9 +9,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
 public class Inflater {
-    private static void inflateFields(Object instance, DataGenerator dataGenerator, Class<?> classType) throws
-        IllegalAccessException,
-        InvocationTargetException {
+    private static <T> void inflateFields(T instance, DataGenerator dataGenerator, Class<T> classType) throws
+        IllegalAccessException, InvocationTargetException {
         Field[] fields = classType.getDeclaredFields();
         PropertyUtilsBean propertyUtils = BeanUtilsBean.getInstance().getPropertyUtils();
 
@@ -25,9 +24,8 @@ public class Inflater {
         }
     }
 
-    public static void inflateInstance(Object instance, DataGenerator cache, Class<?> type) throws
-        InvocationTargetException,
-        IllegalAccessException {
+    public static <T> void inflateInstance(T instance, DataGenerator cache, Class<T> type) throws
+        InvocationTargetException, IllegalAccessException {
         if (type != null) {
             inflateFields(instance, cache, type);
             inflateInstance(instance, cache, type.getSuperclass());
