@@ -9,7 +9,7 @@ import com.exmertec.dummie.configuration.CycleLogic;
 import com.exmertec.dummie.configuration.GenerationStrategy;
 
 public class DummyBuilderFactory {
-    protected Configuration configuration;
+    private Configuration configuration;
 
     public DummyBuilderFactory() {
         configuration = new Configuration(CycleLogic.CYCLE, GenerationStrategy.DEFAULT);
@@ -35,7 +35,7 @@ public class DummyBuilderFactory {
     }
 
     public <T> T create(Class<T> type) {
-        return new DummyBuilder<T>(type, getDataGenerator()).build();
+        return prepare(type).build();
     }
 
     private DataGenerator getDataGenerator() {
