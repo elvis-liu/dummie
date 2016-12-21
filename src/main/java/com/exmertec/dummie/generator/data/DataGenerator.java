@@ -1,21 +1,22 @@
-package com.exmertec.dummie.cache;
+package com.exmertec.dummie.generator.data;
 
+import com.exmertec.dummie.cache.DataCache;
 import com.exmertec.dummie.cache.impl.KeyValueDataCache;
 import com.exmertec.dummie.configuration.GenerationStrategy;
-import com.exmertec.dummie.generator.FieldValueGenerator;
-import com.exmertec.dummie.generator.impl.BooleanFieldValueGenerator;
-import com.exmertec.dummie.generator.impl.ByteFieldValueGenerator;
-import com.exmertec.dummie.generator.impl.CharacterFieldValueGenerator;
-import com.exmertec.dummie.generator.impl.DoubleFieldValueGenerator;
-import com.exmertec.dummie.generator.impl.EnumFieldValueGenerator;
-import com.exmertec.dummie.generator.impl.FloatFieldValueGenerator;
-import com.exmertec.dummie.generator.impl.IntegerFieldValueGenerator;
-import com.exmertec.dummie.generator.impl.ListFieldValueGenerator;
-import com.exmertec.dummie.generator.impl.LongFieldValueGenerator;
-import com.exmertec.dummie.generator.impl.MapFieldValueGenerator;
-import com.exmertec.dummie.generator.impl.SetFieldValueGenerator;
-import com.exmertec.dummie.generator.impl.ShortFieldValueGenerator;
-import com.exmertec.dummie.generator.impl.StringFieldValueGenerator;
+import com.exmertec.dummie.generator.field.FieldValueGenerator;
+import com.exmertec.dummie.generator.field.impl.BooleanFieldValueGenerator;
+import com.exmertec.dummie.generator.field.impl.ByteFieldValueGenerator;
+import com.exmertec.dummie.generator.field.impl.CharacterFieldValueGenerator;
+import com.exmertec.dummie.generator.field.impl.DoubleFieldValueGenerator;
+import com.exmertec.dummie.generator.field.impl.EnumFieldValueGenerator;
+import com.exmertec.dummie.generator.field.impl.FloatFieldValueGenerator;
+import com.exmertec.dummie.generator.field.impl.IntegerFieldValueGenerator;
+import com.exmertec.dummie.generator.field.impl.ListFieldValueGenerator;
+import com.exmertec.dummie.generator.field.impl.LongFieldValueGenerator;
+import com.exmertec.dummie.generator.field.impl.MapFieldValueGenerator;
+import com.exmertec.dummie.generator.field.impl.SetFieldValueGenerator;
+import com.exmertec.dummie.generator.field.impl.ShortFieldValueGenerator;
+import com.exmertec.dummie.generator.field.impl.StringFieldValueGenerator;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -23,27 +24,27 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class DummyCache {
+public abstract class DataGenerator {
 
-    private final List<FieldValueGenerator> cachedGenerator;
-
-    protected DataCache dataCache;
-
-    protected GenerationStrategy strategy;
+    private final List<FieldValueGenerator> generators;
 
     private final Set<String> randomFieldKeys;
 
     private final Set<Class<?>> randomFieldType;
 
-    public DummyCache(GenerationStrategy strategy) {
+    protected DataCache dataCache;
+
+    protected GenerationStrategy strategy;
+
+    public DataGenerator(GenerationStrategy strategy) {
         this(strategy, new KeyValueDataCache());
     }
 
-    public DummyCache(GenerationStrategy strategy, DataCache dataCache) {
+    public DataGenerator(GenerationStrategy strategy, DataCache dataCache) {
         this.dataCache = dataCache;
         this.strategy = strategy;
 
-        cachedGenerator = new ArrayList<FieldValueGenerator>();
+        generators = new ArrayList<FieldValueGenerator>();
         randomFieldKeys = new HashSet<String>();
         randomFieldType = new HashSet<Class<?>>();
 
@@ -51,22 +52,22 @@ public abstract class DummyCache {
     }
 
     private void addDefaultGenerators() {
-        cachedGenerator.add(new StringFieldValueGenerator());
-        cachedGenerator.add(new ListFieldValueGenerator());
-        cachedGenerator.add(new MapFieldValueGenerator());
-        cachedGenerator.add(new SetFieldValueGenerator());
-        cachedGenerator.add(new BooleanFieldValueGenerator());
-        cachedGenerator.add(new ByteFieldValueGenerator());
-        cachedGenerator.add(new CharacterFieldValueGenerator());
-        cachedGenerator.add(new DoubleFieldValueGenerator());
-        cachedGenerator.add(new FloatFieldValueGenerator());
-        cachedGenerator.add(new IntegerFieldValueGenerator());
-        cachedGenerator.add(new LongFieldValueGenerator());
-        cachedGenerator.add(new ShortFieldValueGenerator());
-        cachedGenerator.add(new EnumFieldValueGenerator());
+        generators.add(new StringFieldValueGenerator());
+        generators.add(new ListFieldValueGenerator());
+        generators.add(new MapFieldValueGenerator());
+        generators.add(new SetFieldValueGenerator());
+        generators.add(new BooleanFieldValueGenerator());
+        generators.add(new ByteFieldValueGenerator());
+        generators.add(new CharacterFieldValueGenerator());
+        generators.add(new DoubleFieldValueGenerator());
+        generators.add(new FloatFieldValueGenerator());
+        generators.add(new IntegerFieldValueGenerator());
+        generators.add(new LongFieldValueGenerator());
+        generators.add(new ShortFieldValueGenerator());
+        generators.add(new EnumFieldValueGenerator());
     }
 
-    public Object getCachedData(Field field) {
+    public Object getData(Field field) {
         Class<?> fieldType = field.getType();
         Object value = dataCache.getCachedData(fieldType, field.getName());
         if (value == null) {
@@ -78,7 +79,7 @@ public abstract class DummyCache {
         return value;
     }
 
-    public Object getCachedData(Class<?> dataType, String key) {
+    public Object getData(Class<?> dataType, String key) {
         Object value = dataCache.getCachedData(dataType, key);
         if (value == null) {
             FieldValueGenerator generator = getGenerator(dataType, key);
@@ -97,7 +98,7 @@ public abstract class DummyCache {
         dataCache.cacheData(clazz, value);
     }
 
-    public <T> void dynamicCacheData(Class<T> dataType, String key, Object value) {
+    public  <T> void dynamicCacheData(Class<T> dataType, String key, Object value) {
         if (getStrategy(dataType, key) == GenerationStrategy.DEFAULT) {
             dataCache.cacheData(dataType, key, value);
         }
@@ -122,22 +123,18 @@ public abstract class DummyCache {
         return generator;
     }
 
-    public FieldValueGenerator getGenerator(Class<?> dataType, String key) {
+    private FieldValueGenerator getGenerator(Class<?> dataType, String key) {
         return switchGeneratorStrategy(getCachedGenerator(dataType), dataType, key);
     }
 
-    public FieldValueGenerator getCachedGenerator(Class<?> dataType) {
-        for (FieldValueGenerator generator: cachedGenerator) {
+    private FieldValueGenerator getCachedGenerator(Class<?> dataType) {
+        for (FieldValueGenerator generator: generators) {
             if (generator.isMatchType(dataType)) {
                 return generator;
             }
         }
 
         return getDefaultFieldValueGenerator(dataType);
-    }
-
-    public void cacheGenerator(FieldValueGenerator generator) {
-        cachedGenerator.add(generator);
     }
 
     protected abstract FieldValueGenerator getDefaultFieldValueGenerator(Class<?> dataType);

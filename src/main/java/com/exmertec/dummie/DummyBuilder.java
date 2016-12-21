@@ -1,21 +1,21 @@
 package com.exmertec.dummie;
 
-import com.exmertec.dummie.cache.DummyCache;
+import com.exmertec.dummie.generator.data.DataGenerator;
 import com.exmertec.dummie.generator.Inflater;
 
 public class DummyBuilder<T> {
     private final Class<T> type;
-    private final DummyCache cache;
+    private final DataGenerator dataGenerator;
 
-    public DummyBuilder(Class<T> type, DummyCache cache) {
+    public DummyBuilder(Class<T> type, DataGenerator dataGenerator) {
         this.type = type;
-        this.cache = cache;
+        this.dataGenerator = dataGenerator;
     }
 
     public T build() {
         try {
             T instance = type.newInstance();
-            Inflater.inflateInstance(instance, cache, type);
+            Inflater.inflateInstance(instance, dataGenerator, type);
             return instance;
         } catch (Exception e) {
             throw new DummieException(e);
@@ -23,22 +23,22 @@ public class DummyBuilder<T> {
     }
 
     public <E> DummyBuilder<T> override(String key, E value) {
-        cache.cacheData(value.getClass(), key, value);
+        dataGenerator.cacheData(value.getClass(), key, value);
         return this;
     }
 
     public <E> DummyBuilder<T> override(Class<E> clazz, E value) {
-        cache.cacheData(clazz, value);
+        dataGenerator.cacheData(clazz, value);
         return this;
     }
 
     public <E> DummyBuilder<T> random(Class<E> clazz) {
-        cache.random(clazz);
+        dataGenerator.random(clazz);
         return this;
     }
 
     public <E> DummyBuilder<T> random(String key) {
-        cache.random(key);
+        dataGenerator.random(key);
         return this;
     }
 }

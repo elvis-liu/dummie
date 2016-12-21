@@ -1,9 +1,9 @@
 package com.exmertec.dummie;
 
 
-import com.exmertec.dummie.cache.DummyCache;
-import com.exmertec.dummie.cache.impl.DefaultCache;
-import com.exmertec.dummie.cache.impl.LevelCache;
+import com.exmertec.dummie.generator.data.DataGenerator;
+import com.exmertec.dummie.generator.data.impl.DefaultGenerator;
+import com.exmertec.dummie.generator.data.impl.LevelGenerator;
 import com.exmertec.dummie.configuration.Configuration;
 import com.exmertec.dummie.configuration.CycleLogic;
 import com.exmertec.dummie.configuration.GenerationStrategy;
@@ -31,19 +31,19 @@ public class DummyBuilderFactory {
     }
 
     public <T> DummyBuilder<T> prepare(Class<T> type) {
-        return new DummyBuilder(type, getCache());
+        return new DummyBuilder(type, getDataGenerator());
     }
 
     public <T> T create(Class<T> type) {
-        return new DummyBuilder<T>(type, getCache()).build();
+        return new DummyBuilder<T>(type, getDataGenerator()).build();
     }
 
-    private DummyCache getCache() {
+    private DataGenerator getDataGenerator() {
         switch (configuration.getCycleLogic()) {
             case CYCLE:
-                return new DefaultCache(configuration.getGenerationStrategy());
+                return new DefaultGenerator(configuration.getGenerationStrategy());
             case LEVEL:
-                return new LevelCache(configuration.getGenerationStrategy(), configuration.getFloor());
+                return new LevelGenerator(configuration.getGenerationStrategy(), configuration.getFloor());
             default:
                 throw new IllegalArgumentException();
         }
