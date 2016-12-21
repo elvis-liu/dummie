@@ -1,7 +1,7 @@
-package com.exmertec.dummie.generator;
+package com.exmertec.dummie.generator.field;
 
 import com.exmertec.dummie.cache.Constant;
-import com.exmertec.dummie.cache.DummyCache;
+import com.exmertec.dummie.generator.data.DataGenerator;
 import com.exmertec.dummie.configuration.GenerationStrategy;
 
 import java.lang.reflect.Field;
@@ -20,17 +20,17 @@ public abstract class FieldValueGenerator {
         this.fieldTypes = fieldTypes;
     }
 
-    public Object generate(DummyCache cache, Field field) {
-        return generate(cache, field.getType(), field.getName());
+    public Object generate(DataGenerator dataGenerator, Field field) {
+        return generate(dataGenerator, field.getType(), field.getName());
     }
 
-    public Object generate(DummyCache cache, Class<?> fieldType, String fieldName) {
+    public Object generate(DataGenerator dataGenerator, Class<?> fieldType, String fieldName) {
         switch (strategy) {
             case RANDOM:
-                return randomGenerator(cache, fieldType, fieldName);
+                return randomGenerator(dataGenerator, fieldType, fieldName);
             case DEFAULT:
             default:
-                return defaultGenerator(cache, fieldType, fieldName);
+                return defaultGenerator(dataGenerator, fieldType, fieldName);
         }
     }
 
@@ -38,9 +38,13 @@ public abstract class FieldValueGenerator {
         return strategy == GenerationStrategy.RANDOM ? UUID.randomUUID().toString() : Constant.DEFAULT_STRING_VALUE;
     }
 
-    protected abstract Object defaultGenerator(DummyCache cache, Class<?> fieldType, String fieldName);
+    protected Object defaultGenerator(DataGenerator dataGenerator, Class<?> fieldType, String fieldName) {
+        return null;
+    }
 
-    protected abstract Object randomGenerator(DummyCache cache, Class<?> fieldType, String fieldName);
+    protected Object randomGenerator(DataGenerator dataGenerator, Class<?> fieldType, String fieldName) {
+        return null;
+    }
 
     public boolean isMatchType(Class<?> targetFieldType) {
         for (Class<?> fieldType: fieldTypes) {

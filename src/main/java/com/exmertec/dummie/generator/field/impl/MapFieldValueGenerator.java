@@ -1,7 +1,7 @@
-package com.exmertec.dummie.generator.impl;
+package com.exmertec.dummie.generator.field.impl;
 
-import com.exmertec.dummie.cache.DummyCache;
-import com.exmertec.dummie.generator.FieldValueGenerator;
+import com.exmertec.dummie.generator.data.DataGenerator;
+import com.exmertec.dummie.generator.field.FieldValueGenerator;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -33,7 +33,7 @@ public class MapFieldValueGenerator extends FieldValueGenerator {
     }
 
     @Override
-    public Map generate(DummyCache cache, Field field) {
+    public Map generate(DataGenerator dataGenerator, Field field) {
         Map value = generateValue(field.getType());
 
         Type genericType = field.getGenericType();
@@ -42,8 +42,8 @@ public class MapFieldValueGenerator extends FieldValueGenerator {
             Class<?> keyClass = (Class<?>) parameterizedType.getActualTypeArguments()[0];
             Class<?> valueClass = (Class<?>) parameterizedType.getActualTypeArguments()[1];
 
-            value.put(cache.getCachedData(keyClass, generateKeyValue()),
-                cache.getCachedData(valueClass, generateKeyValue()));
+            value.put(dataGenerator.getData(keyClass, generateKeyValue()),
+                dataGenerator.getData(valueClass, generateKeyValue()));
         }
 
         return value;
@@ -55,17 +55,7 @@ public class MapFieldValueGenerator extends FieldValueGenerator {
     }
 
     @Override
-    public Map generate(DummyCache cache, Class<?> fieldType, String fieldName) {
+    public Map generate(DataGenerator dataGenerator, Class<?> fieldType, String fieldName) {
         return generateValue(fieldType);
-    }
-
-    @Override
-    protected Object defaultGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
-        return null;
-    }
-
-    @Override
-    protected Object randomGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
-        return null;
     }
 }

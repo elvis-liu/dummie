@@ -1,29 +1,29 @@
-package com.exmertec.dummie.cache.impl;
+package com.exmertec.dummie.generator.data.impl;
 
-import com.exmertec.dummie.cache.DummyCache;
+import com.exmertec.dummie.generator.data.DataGenerator;
 import com.exmertec.dummie.configuration.GenerationStrategy;
-import com.exmertec.dummie.generator.FieldValueGenerator;
-import com.exmertec.dummie.generator.impl.CustomTypeFieldValueGenerator;
+import com.exmertec.dummie.generator.field.FieldValueGenerator;
+import com.exmertec.dummie.generator.field.impl.CustomTypeFieldValueGenerator;
 
 import java.lang.reflect.Field;
 
-public class DefaultCache extends DummyCache {
+public class DefaultGenerator extends DataGenerator {
 
-    public DefaultCache(GenerationStrategy generationStrategy) {
+    public DefaultGenerator(GenerationStrategy generationStrategy) {
         super(generationStrategy);
     }
 
     @Override
-    public Object getCachedData(Field field) {
-        Object value = super.getCachedData(field);
+    public Object getData(Field field) {
+        Object value = super.getData(field);
         dynamicCacheData(field.getType(), field.getName(), value);
 
         return value;
     }
 
     @Override
-    public Object getCachedData(Class<?> dataType, String key) {
-        Object value = super.getCachedData(dataType, key);
+    public Object getData(Class<?> dataType, String key) {
+        Object value = super.getData(dataType, key);
 
         try {
             dynamicCacheData(dataType, key, Class.forName(dataType.getName()).cast(value));

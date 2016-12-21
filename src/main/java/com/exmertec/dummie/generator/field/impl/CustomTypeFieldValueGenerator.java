@@ -1,9 +1,9 @@
-package com.exmertec.dummie.generator.impl;
+package com.exmertec.dummie.generator.field.impl;
 
 import com.exmertec.dummie.DummieException;
 import com.exmertec.dummie.generator.Inflater;
-import com.exmertec.dummie.cache.DummyCache;
-import com.exmertec.dummie.generator.FieldValueGenerator;
+import com.exmertec.dummie.generator.data.DataGenerator;
+import com.exmertec.dummie.generator.field.FieldValueGenerator;
 
 public class CustomTypeFieldValueGenerator<T> extends FieldValueGenerator {
     private final Class<T> type;
@@ -19,18 +19,18 @@ public class CustomTypeFieldValueGenerator<T> extends FieldValueGenerator {
     }
 
     @Override
-    protected T defaultGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
-        return randomGenerator(cache, fieldType, fieldName);
+    protected T defaultGenerator(DataGenerator dataGenerator, Class<?> fieldType, String fieldName) {
+        return randomGenerator(dataGenerator, fieldType, fieldName);
     }
 
     @Override
-    protected T randomGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
+    protected T randomGenerator(DataGenerator dataGenerator, Class<?> fieldType, String fieldName) {
         try {
             T instance = type.newInstance();
 
-            cache.cacheData(fieldType, fieldName, instance);
+            dataGenerator.cacheData(fieldType, fieldName, instance);
 
-            Inflater.inflateInstance(instance, cache, type);
+            Inflater.inflateInstance(instance, dataGenerator, type);
             return instance;
         } catch (Exception e) {
             throw new DummieException(e);

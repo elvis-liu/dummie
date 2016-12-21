@@ -1,6 +1,6 @@
 package com.exmertec.dummie.generator;
 
-import com.exmertec.dummie.cache.DummyCache;
+import com.exmertec.dummie.generator.data.DataGenerator;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtilsBean;
@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
 public class Inflater {
-    private static void inflateFields(Object instance, DummyCache cache, Class<?> classType) throws
+    private static void inflateFields(Object instance, DataGenerator dataGenerator, Class<?> classType) throws
         IllegalAccessException,
         InvocationTargetException {
         Field[] fields = classType.getDeclaredFields();
@@ -20,12 +20,12 @@ public class Inflater {
                 continue;
             }
 
-            Object value = cache.getCachedData(field);
+            Object value = dataGenerator.getData(field);
             BeanUtils.setProperty(instance, field.getName(), value);
         }
     }
 
-    public static void inflateInstance(Object instance, DummyCache cache, Class<?> type) throws
+    public static void inflateInstance(Object instance, DataGenerator cache, Class<?> type) throws
         InvocationTargetException,
         IllegalAccessException {
         if (type != null) {

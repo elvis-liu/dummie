@@ -1,22 +1,22 @@
-package com.exmertec.dummie.cache.impl;
+package com.exmertec.dummie.generator.data.impl;
 
 import com.exmertec.dummie.DummyBuilder;
-import com.exmertec.dummie.cache.DummyCache;
+import com.exmertec.dummie.generator.data.DataGenerator;
 import com.exmertec.dummie.configuration.GenerationStrategy;
-import com.exmertec.dummie.generator.FieldValueGenerator;
+import com.exmertec.dummie.generator.field.FieldValueGenerator;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Stack;
 
-public class LevelCache extends DummyCache {
+public class LevelGenerator extends DataGenerator {
 
     private Integer floor;
 
     private Stack<Class<?>> parents;
 
-    public LevelCache(GenerationStrategy strategy, Integer floor) {
+    public LevelGenerator(GenerationStrategy strategy, Integer floor) {
         super(strategy);
 
         this.floor = floor;
@@ -52,8 +52,8 @@ public class LevelCache extends DummyCache {
         }
     }
 
-    public Object getCachedData(Field field) {
-        Object value = isOverFloor(field) ? null : super.getCachedData(field);
+    public Object getData(Field field) {
+        Object value = isOverFloor(field) ? null : super.getData(field);
         downstream(field);
         return value;
     }
@@ -62,23 +62,13 @@ public class LevelCache extends DummyCache {
     protected FieldValueGenerator getDefaultFieldValueGenerator(Class<?> dataType) {
         return new FieldValueGenerator() {
             @Override
-            public Object generate(DummyCache cache, Field field) {
-                return generate(cache, field.getType(), field.getName());
+            public Object generate(DataGenerator dataGenerator, Field field) {
+                return generate(dataGenerator, field.getType(), field.getName());
             }
 
             @Override
-            public Object generate(DummyCache cache, Class<?> fieldType, String fieldName) {
-                return new DummyBuilder(fieldType, cache).build();
-            }
-
-            @Override
-            protected Object defaultGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
-                return null;
-            }
-
-            @Override
-            protected Object randomGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
-                return null;
+            public Object generate(DataGenerator dataGenerator, Class<?> fieldType, String fieldName) {
+                return new DummyBuilder(fieldType, dataGenerator).build();
             }
         };
     }

@@ -1,7 +1,7 @@
-package com.exmertec.dummie.generator.impl;
+package com.exmertec.dummie.generator.field.impl;
 
-import com.exmertec.dummie.cache.DummyCache;
-import com.exmertec.dummie.generator.FieldValueGenerator;
+import com.exmertec.dummie.generator.data.DataGenerator;
+import com.exmertec.dummie.generator.field.FieldValueGenerator;
 
 import java.util.Random;
 
@@ -11,7 +11,7 @@ public class EnumFieldValueGenerator extends FieldValueGenerator {
         super(Enum.class);
     }
     @Override
-    protected Object defaultGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
+    protected Object defaultGenerator(DataGenerator dataGenerator, Class<?> fieldType, String fieldName) {
         Object[] enumConstants = fieldType.getEnumConstants();
         if (enumConstants.length > 0) {
             return enumConstants[0];
@@ -20,7 +20,7 @@ public class EnumFieldValueGenerator extends FieldValueGenerator {
     }
 
     @Override
-    protected Object randomGenerator(DummyCache cache, Class<?> fieldType, String fieldName) {
+    protected Object randomGenerator(DataGenerator dataGenerator, Class<?> fieldType, String fieldName) {
         Object[] enumConstants = fieldType.getEnumConstants();
         if (enumConstants.length > 0) {
             return enumConstants[new Random().nextInt(enumConstants.length)];
