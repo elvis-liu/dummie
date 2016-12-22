@@ -8,5 +8,4 @@ os:
  - linux
 install: true
 script:
- - ./gradlew assemble
  - ./gradlew test
