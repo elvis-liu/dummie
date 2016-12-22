@@ -28,7 +28,7 @@ public class CustomTypeFieldValueGenerator<T> extends FieldValueGenerator {
         try {
             T instance = type.newInstance();
 
-            dataGenerator.cacheData(fieldType, fieldName, instance);
+            dataGenerator.dynamicCacheData(fieldType, fieldName, instance);
 
             Inflater.inflateInstance(instance, dataGenerator, type);
             return instance;

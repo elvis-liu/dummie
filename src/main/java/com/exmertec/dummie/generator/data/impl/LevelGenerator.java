@@ -1,8 +1,9 @@
 package com.exmertec.dummie.generator.data.impl;
 
-import com.exmertec.dummie.DummyBuilder;
-import com.exmertec.dummie.generator.data.DataGenerator;
+import com.exmertec.dummie.DummieException;
 import com.exmertec.dummie.configuration.GenerationStrategy;
+import com.exmertec.dummie.generator.Inflater;
+import com.exmertec.dummie.generator.data.DataGenerator;
 import com.exmertec.dummie.generator.field.FieldValueGenerator;
 
 import java.lang.reflect.Field;
@@ -67,8 +68,14 @@ public class LevelGenerator extends DataGenerator {
             }
 
             @Override
-            public Object generate(DataGenerator dataGenerator, Class<?> fieldType, String fieldName) {
-                return new DummyBuilder(fieldType, dataGenerator).build();
+            public Object generate(DataGenerator dataGenerator, Class fieldType, String fieldName) {
+                try {
+                    Object instance = fieldType.newInstance();
+                    Inflater.inflateInstance(instance, dataGenerator, fieldType);
+                    return instance;
+                } catch (Exception e) {
+                    throw new DummieException(e);
+                }
             }
         };
     }
