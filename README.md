@@ -1,4 +1,4 @@
-# Welcome to Dummie
+# Welcome to Dummie [![Build Status](https://travis-ci.org/elvis-liu/dummie.svg?branch=master)](https://travis-ci.org/elvis-liu/dummie)
 
 ### Overview
 
