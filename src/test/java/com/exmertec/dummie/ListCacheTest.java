@@ -20,12 +20,9 @@ public class ListCacheTest {
         validate(nestingData1);
     }
 
-    @Test
-    public void should_create_object_with_random_strategy() {
-        NestingData1 nestingData1 = withStrategy(GenerationStrategy.RANDOM)
-            .create(NestingData1.class);
-
-        validate(nestingData1);
+    @Test(expected = StackOverflowError.class)
+    public void should_throw_stack_over_flow_with_random_strategy_and_cycle_dependency() {
+        withStrategy(GenerationStrategy.RANDOM).create(NestingData1.class);
     }
 
     private void validate(NestingData1 nestingData1) {
