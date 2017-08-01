@@ -4,6 +4,7 @@ import com.exmertec.dummie.cache.DataCache;
 import com.exmertec.dummie.cache.impl.KeyValueDataCache;
 import com.exmertec.dummie.configuration.GenerationStrategy;
 import com.exmertec.dummie.generator.field.FieldValueGenerator;
+import com.exmertec.dummie.generator.field.impl.BigDecimalFieldValueGenerator;
 import com.exmertec.dummie.generator.field.impl.BooleanFieldValueGenerator;
 import com.exmertec.dummie.generator.field.impl.ByteFieldValueGenerator;
 import com.exmertec.dummie.generator.field.impl.CharacterFieldValueGenerator;
@@ -65,6 +66,7 @@ public abstract class DataGenerator {
         generators.add(new LongFieldValueGenerator());
         generators.add(new ShortFieldValueGenerator());
         generators.add(new EnumFieldValueGenerator());
+        generators.add(new BigDecimalFieldValueGenerator());
     }
 
     public Object getData(Field field) {
