@@ -1,7 +1,6 @@
 apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'java'
-apply plugin: 'signing'
 
 group = 'com.exmertec.dummie'
 archivesBaseName = "dummie"
@@ -25,8 +24,11 @@ artifacts {
     archives javadocJar, sourcesJar
 }
 
-signing {
-    sign configurations.archives
+if (project.hasProperty("signing.keyId")) {
+    apply plugin: 'signing'
+    signing {
+        sign configurations.archives
+    }
 }
 
 uploadArchives {
@@ -81,7 +83,7 @@ uploadArchives {
 
 idea {
     project {
-        languageLevel = '1.6'
+        languageLevel = '1.8'
 
         ipr {
             withXml { provider ->
@@ -93,16 +95,16 @@ idea {
     }
 }
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 dependencies {
-    testCompile 'junit:junit:4.11'
+    testCompile 'junit:junit:4.12'
 
-    compile 'commons-beanutils:commons-beanutils:1.9.2'
+    compile 'commons-beanutils:commons-beanutils:1.9.3'
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.1'
+    gradleVersion = '4.8'
 }
 
