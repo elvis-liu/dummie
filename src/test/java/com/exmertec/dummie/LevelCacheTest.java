@@ -72,6 +72,8 @@ public class LevelCacheTest {
 
     public static class NestingData1 {
         private String name;
+        private NestingData1 nestingData1;
+        private List<NestingData1> nestingData1s;
         private List<NestingData2> nestingData2s;
 
         public String getName() {
@@ -80,6 +82,22 @@ public class LevelCacheTest {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        public NestingData1 getNestingData1() {
+            return nestingData1;
+        }
+
+        public void setNestingData1(NestingData1 nestingData1) {
+            this.nestingData1 = nestingData1;
+        }
+
+        public List<NestingData1> getNestingData1s() {
+            return nestingData1s;
+        }
+
+        public void setNestingData1s(List<NestingData1> nestingData1s) {
+            this.nestingData1s = nestingData1s;
         }
 
         public List<NestingData2> getNestingData2s() {
